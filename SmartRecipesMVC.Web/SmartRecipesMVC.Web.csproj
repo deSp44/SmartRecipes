@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-SmartRecipesMVC.Web-517A7C10-22A3-480A-840B-9320A4CBA20F</UserSecretsId>
+    <UserSecretsId>aspnet-SmartRecipesMVC-FCFD86C9-A7C2-42AF-A67F-88E9F20873D5</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
@@ -13,11 +13,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SmartRecipesMVC.Application\SmartRecipesMVC.Application.csproj" />
-    <ProjectReference Include="..\SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

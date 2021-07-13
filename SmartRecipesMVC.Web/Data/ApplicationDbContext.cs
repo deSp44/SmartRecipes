@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartRecipesMVC.Web.Data
+namespace SmartRecipesMVC.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

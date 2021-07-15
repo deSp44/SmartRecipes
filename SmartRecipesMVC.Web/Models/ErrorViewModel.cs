@@ -1,6 +1,4 @@
-using System;
-
-namespace SmartRecipesMVC.Models
+namespace SmartRecipesMVC.Web.Models
 {
     public class ErrorViewModel
     {

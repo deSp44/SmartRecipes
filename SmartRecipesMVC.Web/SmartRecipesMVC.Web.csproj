@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartRecipesMVC.Application\SmartRecipesMVC.Application.csproj" />
     <ProjectReference Include="..\SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj" />
   </ItemGroup>
 

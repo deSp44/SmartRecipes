@@ -11,53 +11,20 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
     public class RecipeRepository : IRecipeRepository
     {
         private readonly Context _context;
+
         public RecipeRepository(Context context)
         {
             _context = context;
         }
 
-        public int AddRecipe(Recipe recipe)
+        public IQueryable<Recipe> GetAllActiveRecipes()
         {
-            _context.Recipes.Add(recipe);
-            _context.SaveChanges();
-            return recipe.Id;
+            return _context.Recipes.Where(x => x.IsActive);
         }
 
-        public void DeleteRecipe(int recipeId)
+        public Recipe GetRecipe(int recipeId)
         {
-            var recipe = _context.Recipes.Find(recipeId);
-            if (recipe != null)
-            {
-                _context.Recipes.Remove(recipe);
-                _context.SaveChanges();
-            }
+            return _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
         }
-
-        public IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId)
-        {
-            var recipes = _context.Recipes.Where(x => x.DifficultyId == difficultyId);
-            return recipes;
-        }
-
-        public Recipe GetRecipeById(int recipeId)
-        {
-            var recipe = _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
-            return recipe;
-        }
-
-
-
-        public IQueryable<Tag> GetAllTags()
-        {
-            var tags = _context.Tags;
-            return tags;
-        }
-
-        public IQueryable<Difficulty> GetAllDifficuties()
-        {
-            var difficulties = _context.Difficulties;
-            return difficulties;
-        }
-
     }
 }

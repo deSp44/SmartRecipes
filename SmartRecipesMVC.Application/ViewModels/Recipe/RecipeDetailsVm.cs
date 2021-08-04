@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using SmartRecipesMVC.Application.Mapping;
+using SmartRecipesMVC.Domain.Model;
 
-namespace SmartRecipesMVC.Domain.Model
+namespace SmartRecipesMVC.Application.ViewModels.Recipe
 {
-    public class Recipe
+    public class RecipeDetailsVm : IMapFrom<Domain.Model.Recipe>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,10 +23,12 @@ namespace SmartRecipesMVC.Domain.Model
         public DateTime CreateDate { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual Difficulty Difficulty { get; set; }
+        //public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
+        //public ICollection<RecipeTag> RecipeTags { get; set; }
 
-        public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
-        public ICollection<RecipeTag> RecipeTags { get; set; }
-       
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Domain.Model.Recipe, RecipeForListVm>();
+        }
     }
 }

@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SmartRecipesMVC.Application;
+using SmartRecipesMVC.Domain.Interface;
 using SmartRecipesMVC.Infrastructure;
+using SmartRecipesMVC.Infrastructure.Repositories;
 
 namespace SmartRecipesMVC.Web
 {
@@ -21,13 +24,15 @@ namespace SmartRecipesMVC.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
+
+            // DEPENDENCY INJECTION
+            services.AddApplication();
+            services.AddInfrastructure();
+
             services.AddControllersWithViews();
         }
 

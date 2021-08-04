@@ -6,8 +6,6 @@ namespace SmartRecipesMVC.Domain.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? Weight { get; set; }
-        public int? Quantity { get; set; }
 
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
     }

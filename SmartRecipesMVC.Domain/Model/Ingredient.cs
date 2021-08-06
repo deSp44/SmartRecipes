@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Domain.Model
 {

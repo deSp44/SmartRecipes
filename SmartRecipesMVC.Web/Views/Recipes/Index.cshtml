@@ -1,48 +1,90 @@
-﻿@model SmartRecipesMVC.Application.ViewModels.Recipe.ListRecipeForListVm
+﻿@model SmartRecipesMVC.Application.ViewModels.RecipeVm.ListRecipeForListVm
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My recipes";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-success" asp-action="Create">Create new</button>
+    <button type="submit" class="btn btn-primary">Wyszukaj</button>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                ImagePath
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Recipes)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <img src="@Url.Content(item.ImagePath)" alt="ImageError" />
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+<form asp-action="Index" asp-controller="Recipes" method="post">
+    <div class="row">
+        <input class="form-control me-sm-2" type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Search">
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr class="table-primary">
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        ImagePath
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Recipes)
+                {
+                    <tr class="table-primary">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <img src="@Url.Content(item.ImagePath)" alt="ImageError" />
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <table>
+            <tr class="table-primary">
+                @for (int i = 1; i < Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i)">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
             </tr>
+        </table>
+        <input type="hidden" name="pageNumber" id="pageNumber" />
+        <input type="hidden" name="pageSize" id="pageSize" value="10" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNumber").value = index;
+            document.forms[0].submit();
         }
-    </tbody>
-</table>
+    </script>
+    
+}

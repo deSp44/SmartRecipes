@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
-using SmartRecipesMVC.Application.ViewModels.Recipe;
+using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Interface;
 using SmartRecipesMVC.Domain.Model;
 
 namespace SmartRecipesMVC.Application.Services
 {
     public class RecipeService : IRecipeService
-
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
@@ -24,18 +23,20 @@ namespace SmartRecipesMVC.Application.Services
             _mapper = mapper;
         }
 
-        public int AddRecipe(NewRecipeVm recipe)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ListRecipeForListVm GetAllRecipesForList()
+        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int? pageNumber, string searchString)
         {
             var recipes = _recipeRepository.GetAllActiveRecipes()
-                .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider).ToList();
+                .Where(p => p.Name.StartsWith(searchString))
+                .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
+
+            var recipesToShow = recipes.Skip((int)(pageSize * (pageNumber - 1))).Take(pageSize).ToList();
             var recipeList = new ListRecipeForListVm()
             {
-                Recipes = recipes,
+                CurrentPage = pageNumber,
+                PageSize = pageSize,
+                SearchString = searchString,
+                Recipes = recipesToShow,
                 Count = recipes.Count
             };
             return recipeList;
@@ -46,6 +47,11 @@ namespace SmartRecipesMVC.Application.Services
             var recipe = _recipeRepository.GetRecipe(recipeId);
             var recipeVm = _mapper.Map<RecipeDetailsVm>(recipe);
             return recipeVm;
+        }
+
+        public int AddRecipe(NewRecipeVm recipe)
+        {
+            throw new NotImplementedException();
         }
     }
 }

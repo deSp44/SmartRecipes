@@ -1,4 +1,4 @@
-﻿namespace SmartRecipesMVC.Domain.Model
+﻿namespace SmartRecipesMVC.Domain.Model.Connections
 {
     public class RecipeIngredient
     {

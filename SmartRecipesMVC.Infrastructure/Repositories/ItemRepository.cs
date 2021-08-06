@@ -45,8 +45,6 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             return recipe;
         }
 
-
-
         public IQueryable<Tag> GetAllTags()
         {
             var tags = _context.Tags;

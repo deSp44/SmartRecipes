@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartRecipesMVC.Domain.Model
+﻿namespace SmartRecipesMVC.Domain.Model.Connections
 {
     public class RecipeTag
     {

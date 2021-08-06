@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartRecipesMVC.Domain.Model;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Infrastructure
 {

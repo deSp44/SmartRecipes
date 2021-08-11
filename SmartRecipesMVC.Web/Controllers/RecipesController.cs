@@ -17,22 +17,18 @@ namespace SmartRecipesMVC.Web.Controllers
             _recipeService = recipeService;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        [HttpGet] public IActionResult Index()
         {
-            var model = _recipeService.GetAllRecipesForList(10, 1, "");
+            var model = _recipeService.GetAllRecipesForList(12, 1, "");
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Index(int pageSize, int? pageNumber, string searchString)
+        [HttpPost] public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
-            if (!pageNumber.HasValue)
-                pageNumber = 1;
-            if (searchString is null)
-                searchString = string.Empty;
+            pageNumber ??= 1;
+            searchString ??= string.Empty;
 
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber, searchString);
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString);
             return View(model);
         }
 
@@ -42,20 +38,15 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(recipeModel);
         }
 
-        [HttpGet]
-        public IActionResult AddRecipe()
+        [HttpGet] public IActionResult AddRecipe()
         {
             return View(new NewRecipeVm());
         }
 
-
-        [HttpPost]
-        public IActionResult AddRecipe(NewRecipeVm model)
+        [HttpPost] public IActionResult AddRecipe(NewRecipeVm model)
         {
             var id = _recipeService.AddRecipe(model);
             return View();
         }
-
-        
     }
 }

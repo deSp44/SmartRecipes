@@ -23,14 +23,14 @@ namespace SmartRecipesMVC.Application.Services
             _mapper = mapper;
         }
 
-        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int? pageNumber, string searchString)
+        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString)
         {
             var recipes = _recipeRepository.GetAllActiveRecipes()
                 .Where(p => p.Name.StartsWith(searchString))
                 .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            var recipesToShow = recipes.Skip((int)(pageSize * (pageNumber - 1))).Take(pageSize).ToList();
+            var recipesToShow = recipes.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
             var recipeList = new ListRecipeForListVm()
             {
                 CurrentPage = pageNumber,

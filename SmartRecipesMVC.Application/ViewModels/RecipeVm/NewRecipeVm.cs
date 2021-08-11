@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 
 namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 {
@@ -12,5 +14,6 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Porcje")] public short Portions { get; set; }
         [DisplayName("Przygotowanie")] public string Preparation { get; set; }
         [DisplayName("Wskazówki")] public string Hints { get; set; }
+        [DisplayName("Składniki")] public IList<IngredientsForListForRecipeDetailsVm> RecipeIngredients { get; set; }
     }
 }

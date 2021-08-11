@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartRecipesMVC.Infrastructure.Repositories
 {
@@ -24,7 +25,9 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
 
         public Recipe GetRecipe(int recipeId)
         {
-            return _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+            return _context.Recipes
+                .Include(x => x.RecipeIngredients).ThenInclude(s => s.Ingredient)
+                .FirstOrDefault(x => x.Id == recipeId);
         }
     }
 }

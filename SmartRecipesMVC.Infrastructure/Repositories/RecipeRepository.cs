@@ -29,5 +29,36 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
                 .Include(x => x.RecipeIngredients).ThenInclude(s => s.Ingredient)
                 .FirstOrDefault(x => x.Id == recipeId);
         }
+        public int AddRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+/*
+            _context.Recipes.Add(recipe);
+            _context.SaveChanges();
+            return recipe.Id;
+*/
+        }
+
+        public void DeleteRecipe(int recipeId)
+        {
+            throw new NotImplementedException();
+/*
+            var recipe = _context.Recipes.Find(recipeId);
+            if (recipe != null)
+            {
+                _context.Recipes.Remove(recipe);
+                _context.SaveChanges();
+            }
+*/
+        }
+
+        public IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId)
+        {
+            throw new NotImplementedException();
+/*
+            var recipes = _context.Recipes.Where(x => x.DifficultyId == difficultyId);
+            return recipes;
+*/
+        }
     }
 }

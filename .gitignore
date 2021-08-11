@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /SmartRecipesMVC.Web/Content/Images
+/SmartRecipesMVC.Web/wwwroot/Content/Images

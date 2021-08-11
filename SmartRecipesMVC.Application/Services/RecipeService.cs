@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Interface;
-using SmartRecipesMVC.Domain.Model;
 
 namespace SmartRecipesMVC.Application.Services
 {

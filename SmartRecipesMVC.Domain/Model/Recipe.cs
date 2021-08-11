@@ -26,6 +26,5 @@ namespace SmartRecipesMVC.Domain.Model
 
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
         public ICollection<RecipeTag> RecipeTags { get; set; }
-       
     }
 }

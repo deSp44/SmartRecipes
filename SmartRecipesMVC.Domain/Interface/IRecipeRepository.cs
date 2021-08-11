@@ -11,5 +11,9 @@ namespace SmartRecipesMVC.Domain.Interface
     {
         IQueryable<Recipe> GetAllActiveRecipes();
         Recipe GetRecipe(int recipeId);
+        int AddRecipe(Recipe recipe);
+        //int EditRecipe(Recipe recipe);
+        void DeleteRecipe(int recipeId);
+        IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId);
     }
 }

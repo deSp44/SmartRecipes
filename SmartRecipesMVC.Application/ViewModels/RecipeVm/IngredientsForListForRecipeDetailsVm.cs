@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using AutoMapper;
 using SmartRecipesMVC.Application.Mapping;
-using SmartRecipesMVC.Application.ViewModels.RecipeVm;
-using SmartRecipesMVC.Domain.Model.Connections;
 
-namespace SmartRecipesMVC.Application.ViewModels.IngredientVm
+namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 {
     public class IngredientsForListForRecipeDetailsVm : IMapFrom<Domain.Model.Ingredient>
     {

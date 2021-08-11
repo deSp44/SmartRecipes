@@ -38,6 +38,7 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(recipeModel);
         }
 
+        // TODO : AddRecipe FUNCTIONALITY
         [HttpGet] public IActionResult AddRecipe()
         {
             return View(new NewRecipeVm());

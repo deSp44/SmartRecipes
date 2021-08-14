@@ -25,8 +25,11 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
 
         public Recipe GetRecipe(int recipeId)
         {
+            // TODO : DO I NEED INCLUDES?
             return _context.Recipes
                 .Include(x => x.RecipeIngredients).ThenInclude(s => s.Ingredient)
+                .Include(x => x.Difficulty).ThenInclude(s => s.Recipes)
+                .Include(x => x.Images).ThenInclude(s => s.Recipe)
                 .FirstOrDefault(x => x.Id == recipeId);
         }
         public int AddRecipe(Recipe recipe)

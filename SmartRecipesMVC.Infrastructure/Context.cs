@@ -13,6 +13,7 @@ namespace SmartRecipesMVC.Infrastructure
         public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
         public DbSet<RecipeTag> RecipeTag { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public Context(DbContextOptions options) : base(options)
         {
@@ -23,7 +24,7 @@ namespace SmartRecipesMVC.Infrastructure
         {
             base.OnModelCreating(builder);
 
-            // RECIPE <-> RECIPE TAG <-> TAG
+            // RECIPE <-> RECIPE-TAG <-> TAG
             builder.Entity<RecipeTag>()
                 .HasKey(it => new {it.RecipeId, it.TagId});
             builder.Entity<RecipeTag>()
@@ -35,7 +36,7 @@ namespace SmartRecipesMVC.Infrastructure
                 .WithMany(i => i.RecipeTags)
                 .HasForeignKey(it => it.TagId);
 
-            // RECIPE <-> RECIPE INGREDIENT <-> INGREDIENT
+            // RECIPE <-> RECIPE-INGREDIENT <-> INGREDIENT
             builder.Entity<RecipeIngredient>()
                 .HasKey(it => new { it.RecipeId, it.IngredientId });
             builder.Entity<RecipeIngredient>()
@@ -46,6 +47,16 @@ namespace SmartRecipesMVC.Infrastructure
                 .HasOne<Ingredient>(it => it.Ingredient)
                 .WithMany(i => i.RecipeIngredients)
                 .HasForeignKey(it => it.IngredientId);
+
+            // DIFFICULTIES <-ONE-TO-MANY-> RECIPE
+            builder.Entity<Recipe>()
+                .HasOne(it => it.Difficulty)
+                .WithMany(i => i.Recipes);
+
+            // RECIPE <-ONE-TO-MANY-> IMAGE
+            builder.Entity<Image>()
+                .HasOne(it => it.Recipe)
+                .WithMany(i => i.Images);
         }
     }
 }

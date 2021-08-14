@@ -5,17 +5,9 @@
 }
 
 <h1>ViewRecipe</h1>
-
+<hr/>
 <div>
-    <h4>RecipeDetailsVm</h4>
-    <hr/>
     <dl class="row">
-        <dt class="col-sm-2">
-            <a href="@Url.Content(Model.ImagePath)" alt="Image not found" ></a>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -41,10 +33,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DifficultyId)
+            @Html.DisplayNameFor(model => model.Difficulty)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DifficultyId)
+            @Html.DisplayFor(model => model.Difficulty.Name)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PreparationTime)
@@ -69,12 +61,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Hints)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RecipeIngredients)

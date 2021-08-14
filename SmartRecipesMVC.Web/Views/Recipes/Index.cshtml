@@ -24,7 +24,13 @@
             <div class="col-sm-4 mb-5">
                 <div class="card">
                     <a class="page-link" asp-area="" asp-controller="Recipes" asp-action="ViewRecipe" asp-route-recipeId="@item.Id">
-                        <img class="my-image-crop card-img-top" src="@Url.Content(item.ImagePath)" alt="Image not found"/>
+                        @foreach (var image in item.Images)
+                        {
+                            @if(image.IsMainImage)
+                            {
+                                <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image not found" />
+                            }
+                        }
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRecipesMVC.Infrastructure;
 
 namespace SmartRecipesMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210813222656_New")]
+    partial class New
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,10 +282,7 @@ namespace SmartRecipesMVC.Infrastructure.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsMainImage")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("RecipeId")
+                    b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -291,7 +290,8 @@ namespace SmartRecipesMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                    b.HasIndex("RecipeId")
+                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -459,8 +459,10 @@ namespace SmartRecipesMVC.Infrastructure.Migrations
             modelBuilder.Entity("SmartRecipesMVC.Domain.Model.Image", b =>
                 {
                     b.HasOne("SmartRecipesMVC.Domain.Model.Recipe", "Recipe")
-                        .WithMany("Images")
-                        .HasForeignKey("RecipeId");
+                        .WithOne("Image")
+                        .HasForeignKey("SmartRecipesMVC.Domain.Model.Image", "RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
                 });
@@ -486,7 +488,7 @@ namespace SmartRecipesMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("SmartRecipesMVC.Domain.Model.Recipe", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("Image");
 
                     b.Navigation("RecipeIngredients");
 

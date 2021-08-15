@@ -23,6 +23,7 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost] public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
             pageNumber ??= 1;
@@ -44,10 +45,11 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(new NewRecipeVm());
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost] public IActionResult AddRecipe(NewRecipeVm model)
         {
             var id = _recipeService.AddRecipe(model);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

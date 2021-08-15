@@ -1,3 +1,6 @@
+using System;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartRecipesMVC.Application;
+using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Infrastructure;
 
 namespace SmartRecipesMVC.Web
@@ -27,11 +31,17 @@ namespace SmartRecipesMVC.Web
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
 
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation()
+                .AddFluentValidation(fv => fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
+
             // DEPENDENCY INJECTION
             services.AddApplication();
             services.AddInfrastructure();
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            //FLUENT VALIDATION
+            services.AddTransient<IValidator<NewRecipeVm>, NewRecipeValidation>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

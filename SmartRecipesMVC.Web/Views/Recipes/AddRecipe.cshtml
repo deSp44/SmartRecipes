@@ -12,51 +12,59 @@
     <div class="col-md-4">
         <form asp-action="AddRecipe">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" />
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="col-form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="col-form-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DifficultyId" class="control-label"></label>
-                <input asp-for="DifficultyId" class="form-control" />
-                <span asp-validation-for="DifficultyId" class="text-danger"></span>
+                <label asp-for="CreateDate" class="col-form-label"></label>
+                <input asp-for="CreateDate" class="form-control" value="@DateTime.Now" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PreparationTime" class="control-label"></label>
+                <label asp-for="PreparationTime" class="col-form-label"></label>
                 <input asp-for="PreparationTime" class="form-control" />
                 <span asp-validation-for="PreparationTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Portions" class="control-label"></label>
+                <label asp-for="Portions" class="col-form-label"></label>
                 <input asp-for="Portions" class="form-control" />
                 <span asp-validation-for="Portions" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Preparation" class="control-label"></label>
+                <label asp-for="Preparation" class="col-form-label"></label>
                 <input asp-for="Preparation" class="form-control" />
                 <span asp-validation-for="Preparation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Hints" class="control-label"></label>
+                <label asp-for="Hints" class="col-form-label"></label>
                 <input asp-for="Hints" class="form-control" />
                 <span asp-validation-for="Hints" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
+
+            @*<div class="form-group">
+                <label asp-for="Difficulty" class="col-form-label"></label>
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="inputGroupSelect01">
+                        <option selected>Choose...</option>
+                        <option value="1">Very easy</option>
+                        <option value="2">Easy</option>
+                        <option value="3">Medium</option>
+                        <option value="4">Hard</option>
+                        <option value="5">Very hard</option>
+                    </select>
+                </div>
+                <input asp-for="Difficulty.Id" class="form-control" />
+                <span asp-validation-for="Difficulty" class="text-danger"></span>
+            </div>*@
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -68,6 +76,26 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
+@section Scripts
+{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @*<script type="text/javascript">
+        function addNewIngredient() {
+
+            //Create an input type dynamically.
+            var element = document.createElement("input");
+
+            //Assign different attributes to the element.
+            element.setAttribute("type", "text");
+            element.setAttribute("asp-for", "Ingredient");
+            element.setAttribute("class", "form-control");
+
+            var divIngr = document.getElementById("divIngr");
+
+            //Append the element in page (in span).
+            divIngr.appendChild(element);
+        
+        }
+    </script>*@
 }

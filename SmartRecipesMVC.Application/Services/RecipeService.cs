@@ -5,6 +5,7 @@ using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Interface;
+using SmartRecipesMVC.Domain.Model;
 
 namespace SmartRecipesMVC.Application.Services
 {
@@ -45,9 +46,11 @@ namespace SmartRecipesMVC.Application.Services
             return recipeVm;
         }
 
-        public int AddRecipe(NewRecipeVm recipe)
+        public int AddRecipe(NewRecipeVm newRecipe)
         {
-            throw new NotImplementedException();
+            var recipe = _mapper.Map<Recipe>(newRecipe);
+            var id = _recipeRepository.AddRecipe(recipe);
+            return id;
         }
     }
 }

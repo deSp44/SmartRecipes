@@ -34,12 +34,9 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
         }
         public int AddRecipe(Recipe recipe)
         {
-            throw new NotImplementedException();
-/*
             _context.Recipes.Add(recipe);
             _context.SaveChanges();
             return recipe.Id;
-*/
         }
 
         public void DeleteRecipe(int recipeId)

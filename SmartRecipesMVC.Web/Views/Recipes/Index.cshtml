@@ -4,17 +4,23 @@
     ViewData["Title"] = "My recipes";
 }
 
-<h1>My recipes</h1>
+<h1>MY RECIPES</h1>
 
-<p>
-    <button type="button" class="btn btn-success" asp-action="Create">Create new</button>
-</p>
 <form asp-action="Index" asp-controller="Recipes" method="post">
-    <div class="hstack gap-3">
-        <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" aria-atomicplaceholder="Search...">
-        <input type="submit" class="btn btn-secondary" value="Search"/>
+    <div class="hstack">
+        <div>
+            <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe"/>
+        </div>
+        <div>
+            <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" aria-atomicplaceholder="Search...">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-secondary" value="Search"/>
+        </div>
         <div class="vr"></div>
-        <input type="submit" class="btn btn-outline-danger" value="Reset" onclick="location.reload();"/>
+        <div>
+            <input type="submit" class="btn btn-outline-danger" value="Reset" onclick="location.reload();"/>
+        </div>
     </div>
     <br/>
 
@@ -26,9 +32,9 @@
                     <a class="page-link" asp-area="" asp-controller="Recipes" asp-action="ViewRecipe" asp-route-recipeId="@item.Id">
                         @foreach (var image in item.Images)
                         {
-                            @if(image.IsMainImage)
+                            @if (image.IsMainImage)
                             {
-                                <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image not found" />
+                                <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image not found"/>
                             }
                         }
                         <div class="card-body">
@@ -52,7 +58,7 @@
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double) Model.PageSize); i++)
+                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
                 {
                     @if (i != Model.CurrentPage)
                     {

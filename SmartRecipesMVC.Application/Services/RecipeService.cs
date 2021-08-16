@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
@@ -51,6 +50,24 @@ namespace SmartRecipesMVC.Application.Services
             var recipe = _mapper.Map<Recipe>(newRecipe);
             var id = _recipeRepository.AddRecipe(recipe);
             return id;
+        }
+
+        public NewRecipeVm GetRecipeForEdit(int id)
+        {
+            var recipe = _recipeRepository.GetRecipe(id);
+            var customerVm = _mapper.Map<NewRecipeVm>(recipe);
+            return customerVm;
+        }
+
+        public void UpdateRecipe(NewRecipeVm model)
+        {
+            var recipe = _mapper.Map<Recipe>(model);
+            _recipeRepository.UpdateCustomer(recipe);
+        }
+
+        public void DeleteRecipe(int id)
+        {
+            _recipeRepository.DeleteRecipe(id);
         }
     }
 }

@@ -29,8 +29,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<NewRecipeVm, Domain.Model.Recipe>();
-
+            profile.CreateMap<NewRecipeVm, Domain.Model.Recipe>().ReverseMap();
         }
     }
 

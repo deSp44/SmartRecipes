@@ -16,6 +16,7 @@ namespace SmartRecipesMVC.Web.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("User entered website");
             return View();
         }
 

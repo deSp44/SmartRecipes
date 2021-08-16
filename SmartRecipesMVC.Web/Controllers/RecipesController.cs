@@ -39,7 +39,6 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(recipeModel);
         }
 
-        // TODO : AddRecipe FUNCTIONALITY
         [HttpGet] public IActionResult AddRecipe()
         {
             return View(new NewRecipeVm());
@@ -49,6 +48,25 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpPost] public IActionResult AddRecipe(NewRecipeVm model)
         {
             var id = _recipeService.AddRecipe(model);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet] public IActionResult EditRecipe(int id)
+        {
+            var customer = _recipeService.GetRecipeForEdit(id);
+            return View(customer);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost] public IActionResult EditRecipe(NewRecipeVm model)
+        {
+            _recipeService.UpdateRecipe(model);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteRecipe(int id)
+        {
+            _recipeService.DeleteRecipe(id);
             return RedirectToAction("Index");
         }
     }

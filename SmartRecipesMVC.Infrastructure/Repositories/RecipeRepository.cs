@@ -39,17 +39,26 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             return recipe.Id;
         }
 
+        public void UpdateCustomer(Recipe recipe)
+        {
+            _context.Attach(recipe);
+            _context.Entry(recipe).Property("Name").IsModified = true;
+            _context.Entry(recipe).Property("Description").IsModified = true;
+            _context.Entry(recipe).Property("PreparationTime").IsModified = true;
+            _context.Entry(recipe).Property("Portions").IsModified = true;
+            _context.Entry(recipe).Property("Preparation").IsModified = true;
+            _context.Entry(recipe).Property("Hints").IsModified = true;
+            _context.SaveChanges();
+        }
+
         public void DeleteRecipe(int recipeId)
         {
-            throw new NotImplementedException();
-/*
             var recipe = _context.Recipes.Find(recipeId);
             if (recipe != null)
             {
                 _context.Recipes.Remove(recipe);
                 _context.SaveChanges();
             }
-*/
         }
 
         public IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId)

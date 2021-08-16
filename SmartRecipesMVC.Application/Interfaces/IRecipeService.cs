@@ -12,5 +12,8 @@ namespace SmartRecipesMVC.Application.Interfaces
         ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString);
         RecipeDetailsVm GetRecipeDetails(int recipeId);
         int AddRecipe(NewRecipeVm recipe);
+        NewRecipeVm GetRecipeForEdit(int id);
+        void UpdateRecipe(NewRecipeVm model);
+        void DeleteRecipe(int id);
     }
 }

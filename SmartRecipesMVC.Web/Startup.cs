@@ -43,6 +43,28 @@ namespace SmartRecipesMVC.Web
             //FLUENT VALIDATION
             services.AddTransient<IValidator<NewRecipeVm>, NewRecipeValidation>();
 
+            //REGISTER AND LOGIN RULES
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 8;
+
+                options.SignIn.RequireConfirmedEmail = false;
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.AllowedForNewUsers = false;
+            });
+
+            // GOOGLE AUTHENTICATION
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

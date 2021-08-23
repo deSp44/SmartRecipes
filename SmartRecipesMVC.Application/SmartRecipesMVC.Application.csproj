@@ -17,8 +17,4 @@
     <ProjectReference Include="..\SmartRecipesMVC.Domain\SmartRecipesMVC.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\IngredientVm\" />
-  </ItemGroup>
-
 </Project>

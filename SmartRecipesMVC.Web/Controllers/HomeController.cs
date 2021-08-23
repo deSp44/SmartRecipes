@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmartRecipesMVC.Web.Models;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,10 +19,18 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation("User entered website");
+            if (User.Identity is { IsAuthenticated: true })
+                return RedirectToAction("Index", "Recipes");
+
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult About()
         {
             return View();
         }

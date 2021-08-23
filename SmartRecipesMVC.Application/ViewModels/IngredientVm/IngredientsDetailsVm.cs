@@ -2,9 +2,9 @@
 using AutoMapper;
 using SmartRecipesMVC.Application.Mapping;
 
-namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
+namespace SmartRecipesMVC.Application.ViewModels.IngredientVm
 {
-    public class IngredientsForListForRecipeDetailsVm : IMapFrom<Domain.Model.Ingredient>
+    public class IngredientsDetailsVm : IMapFrom<Domain.Model.Ingredient>
     {
         public int Id { get; set; }
         [DisplayName("Składnik")] public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Model.Ingredient, IngredientsForListForRecipeDetailsVm>();
+            profile.CreateMap<Domain.Model.Ingredient, IngredientsDetailsVm>();
         }
     }
 }

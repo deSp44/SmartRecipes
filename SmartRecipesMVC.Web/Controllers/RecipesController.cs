@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
+    [Authorize]
     public class RecipesController : Controller
     {
         private readonly IRecipeService _recipeService;

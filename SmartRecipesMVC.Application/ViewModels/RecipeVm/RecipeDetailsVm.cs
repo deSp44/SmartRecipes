@@ -7,6 +7,8 @@ using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SmartRecipesMVC.Application.Mapping;
+using SmartRecipesMVC.Application.ViewModels.ImageVm;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
 
@@ -22,17 +24,16 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Porcje")] public short Portions { get; set; }
         [DisplayName("Przygotowanie")] public string Preparation { get; set; }
         [DisplayName("Wskazówki")] public string Hints { get; set; }
-
-        [DisplayName("Trudność przygotowania")] public Difficulty Difficulty { get; set; }
+        [DisplayName("Trudność")] public short DifficultyId { get; set; }
 
         
-        [DisplayName("Składniki")] public IList<IngredientsForListForRecipeDetailsVm> RecipeIngredients { get; set; }
-        [DisplayName("Zdjęcia")] public IList<Image> Images { get; set; }
+        [DisplayName("Składniki")] public IList<IngredientsDetailsVm> RecipeIngredients { get; set; }
+        [DisplayName("Zdjęcia")] public IList<ImageDetailsVm> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Model.Connections.RecipeIngredient, IngredientsForListForRecipeDetailsVm>()
+            profile.CreateMap<Domain.Model.Connections.RecipeIngredient, IngredientsDetailsVm>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
                 .ForMember(d => d.Weight, opt => opt.MapFrom(s => s.Weight))

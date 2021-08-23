@@ -7,7 +7,6 @@ namespace SmartRecipesMVC.Infrastructure
 {
     public class Context : IdentityDbContext
     {
-        public DbSet<Difficulty> Difficulties { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
@@ -48,15 +47,12 @@ namespace SmartRecipesMVC.Infrastructure
                 .WithMany(i => i.RecipeIngredients)
                 .HasForeignKey(it => it.IngredientId);
 
-            // DIFFICULTIES <-ONE-TO-MANY-> RECIPE
-            builder.Entity<Recipe>()
-                .HasOne(it => it.Difficulty)
-                .WithMany(i => i.Recipes);
-
             // RECIPE <-ONE-TO-MANY-> IMAGE
-            builder.Entity<Image>()
-                .HasOne(it => it.Recipe)
-                .WithMany(i => i.Images);
+            builder.Entity<Recipe>()
+                .HasMany(it => it.Images)
+                .WithOne(i => i.Recipe)
+                .HasForeignKey(it => it.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

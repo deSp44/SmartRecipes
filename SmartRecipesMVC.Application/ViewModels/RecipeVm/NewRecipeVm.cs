@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using FluentValidation;
 using SmartRecipesMVC.Application.Mapping;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Domain.Model;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 {
     public class NewRecipeVm : IMapFrom<Domain.Model.Recipe>
     {
-        // TODO : REFACTOR TO CORRECT PROPERTIES
         public int Id { get; set; }
         [DisplayName("Nazwa")] public string Name { get; set; }
         [DisplayName("Opis")] public string Description { get; set; }
@@ -20,10 +21,10 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Porcje")] public short Portions { get; set; }
         [DisplayName("Przygotowanie")] public string Preparation { get; set; }
         [DisplayName("Wskazówki")] public string Hints { get; set; }
+        [DisplayName("Trudność przygotowania")] public short DifficultyId { get; set; }
+        public bool IsActive { get; set; }
 
-        //[DisplayName("Trudność przygotowania")] public Difficulty Difficulty { get; set; }
-
-        //[DisplayName("Składniki")] public IList<IngredientsForListForRecipeDetailsVm> RecipeIngredients { get; set; }
+        [DisplayName("Składniki")] public IList<RecipeIngredient> RecipeIngredients { get; set; }
         //[DisplayName("Zdjęcia")] public IList<Image> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 

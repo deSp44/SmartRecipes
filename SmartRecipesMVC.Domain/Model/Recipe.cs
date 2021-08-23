@@ -14,13 +14,12 @@ namespace SmartRecipesMVC.Domain.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
+        public short? DifficultyId { get; set; }
         public short PreparationTime { get; set; }
         public short Portions { get; set; }
         public string Preparation { get; set; }
         public string Hints { get; set; }
         public bool IsActive { get; set; }
-
-        public Difficulty Difficulty { get; set; }
         
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
         public ICollection<Image> Images { get; set; }

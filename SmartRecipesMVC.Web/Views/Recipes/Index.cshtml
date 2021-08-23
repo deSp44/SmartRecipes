@@ -5,21 +5,22 @@
 }
 
 <h1>MY RECIPES</h1>
-
+<form asp-action="Index" asp-controller="Recipes" method="get">
+    <div>
+        <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get"/>
+    </div>
+</form>
 <form asp-action="Index" asp-controller="Recipes" method="post">
     <div class="hstack">
-        <div>
-            <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe"/>
-        </div>
         <div>
             <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" aria-atomicplaceholder="Search...">
         </div>
         <div>
-            <input type="submit" class="btn btn-secondary" value="Search"/>
+            <input type="submit" class="btn btn-secondary" value="Search" />
         </div>
         <div class="vr"></div>
         <div>
-            <input type="submit" class="btn btn-outline-danger" value="Reset" onclick="location.reload();"/>
+            <input type="submit" class="btn btn-outline-danger" value="Reset" onclick="location.reload();" />
         </div>
     </div>
     <br/>
@@ -93,12 +94,7 @@
     <script type="text/javascript">
         function PagerClick(index) {
             document.getElementById("pageNumber").value = index;
-            document.forms[1].submit();
-        }
-
-        function ResetButton() {
-            document.getElementById("<%= searchString.ClientID %>").value = "";
-            document.forms[2].submit();
+            document.getElementById("pageNumber").form.submit();
         }
     </script>
 }

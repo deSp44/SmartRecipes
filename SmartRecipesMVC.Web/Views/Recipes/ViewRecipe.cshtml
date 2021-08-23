@@ -33,10 +33,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Difficulty)
+            @Html.DisplayNameFor(model => model.DifficultyId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Difficulty.Name)
+            @Html.DisplayFor(model => model.DifficultyId)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PreparationTime)
@@ -81,6 +81,6 @@
 
 <div>
     @Html.ActionLink("Edit", "EditRecipe", new {/* id = Model.PrimaryKey */}) |
-    @Html.ActionLink("Delete", "DeleteRecipe", new {/* id = Model.PrimaryKey */}) |
+    @Html.ActionLink("Delete", "DeleteRecipe", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

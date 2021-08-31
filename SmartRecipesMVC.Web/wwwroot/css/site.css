@@ -94,9 +94,16 @@ body {
     align-self: stretch;
 }
 
-.bg-image-full {
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+.parallax {
+    min-height: 550px;
+    background-attachment: fixed;
     background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
+}
+
+@media only screen and (max-device-width: 1366px) {
+    .parallax {
+        background-attachment: scroll;
+    }
 }

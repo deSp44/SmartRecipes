@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
@@ -19,12 +20,23 @@ namespace SmartRecipesMVC.Application.Services
             _mapper = mapper;
         }
 
-        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString)
+        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash)
         {
-            var recipes = _recipeRepository.GetAllActiveRecipes()
-                .Where(p => p.Name.StartsWith(searchString))
-                .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
-                .ToList();
+            List<RecipeForListVm> recipes;
+            if(!trash)
+            {
+                recipes = _recipeRepository.GetAllActiveRecipes()
+                    .Where(p => p.Name.StartsWith(searchString))
+                    .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
+                    .ToList();
+            }
+            else
+            {
+                recipes = _recipeRepository.GetAllDeletedRecipes()
+                    .Where(p => p.Name.StartsWith(searchString))
+                    .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
+                    .ToList();
+            }
 
             var recipesToShow = recipes.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
             var recipeList = new ListRecipeForListVm()
@@ -62,12 +74,14 @@ namespace SmartRecipesMVC.Application.Services
         public void UpdateRecipe(NewRecipeVm model)
         {
             var recipe = _mapper.Map<Recipe>(model);
-            _recipeRepository.UpdateCustomer(recipe);
+            _recipeRepository.UpdateRecipe(recipe);
         }
 
-        public void DeleteRecipe(int id)
+        public void MoveToTrash(int id)
         {
-            _recipeRepository.DeleteRecipe(id);
+            var recipe = _recipeRepository.GetRecipe(id);
+            recipe.IsActive = false;
+            _recipeRepository.MoveToTrash(recipe);
         }
     }
 }

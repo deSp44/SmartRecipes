@@ -5,7 +5,7 @@
 <!-- Header - set the background image for the header in the line below-->
 <header class="py-5 bg-image-full" style="background-image: url('https://images.wallpaperscraft.com/image/carrots_art_background_123239_1600x900.jpg') ">
     <div class="text-center my-5">
-        <img class="img-fluid rounded-circle mb-4" style="background-color: #383c44;" backgr src="Content/PageContent/logo.png" alt="logo"/>
+        <img class="img-fluid rounded-circle mb-4" style="background-color: #383c44;" backgr src="Content/PageContent/logo.png" alt="logo" />
         <h1 class="text-white fs-3 fw-bolder">Smart Recipes</h1>
         <p class="text-white-50 mb-0">Find yourself better in the kitchen and facilitates the planning of daily meals by managing your recipes</p>
     </div>
@@ -47,3 +47,19 @@
         overflow-x: hidden;
     }
 </style>
+
+@section Scripts
+{
+    <script>
+        var velocity = 0.3;
+        function update(){ 
+            var pos = $(window).scrollTop(); 
+            $('.bg-image-full').each(function() {
+                var $element = $(this);
+                var height = $element.height()-18;
+                $(this).css('backgroundPosition', '50% ' + Math.round((height - pos) * velocity) + 'px'); 
+            }); 
+        };
+        $(window).bind('scroll', update);
+    </script>
+}

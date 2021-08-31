@@ -13,7 +13,7 @@ namespace SmartRecipesMVC.Application.ViewModels.ImageVm
     public class ImageDetailsVm : IMapFrom<Domain.Model.Image>
     {
         public int Id { get; set; }
-        [DisplayName("Tytuł")] public string Title { get; set; }
+        [DisplayName("Title")] public string Title { get; set; }
         public string ImagePath { get; set; }
         public bool IsMainImage { get; set; }
 

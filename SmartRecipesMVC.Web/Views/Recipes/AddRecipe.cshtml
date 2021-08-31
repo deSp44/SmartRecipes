@@ -14,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddRecipe">
+        <form asp-action="AddRecipe" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="Id" type="hidden" />
             <div class="form-group">
@@ -57,33 +57,33 @@
                 <label asp-for="DifficultyId" class="col-form-label"></label>
                 <select class="custom-select" id="inputGroupSelect01" asp-for="DifficultyId">
                     <option selected>Choose...</option>
-                    <option value="1">Bardzo łatwe</option>
-                    <option value="2">Łatwe</option>
-                    <option value="3">Średnie</option>
-                    <option value="4">Trudne</option>
-                    <option value="5">Bardzo trudne</option>
+                    <option value="1">Very easy</option>
+                    <option value="2">Easy</option>
+                    <option value="3">Medium</option>
+                    <option value="4">Hard</option>
+                    <option value="5">Very hard</option>
                 </select>
                 <span asp-validation-for="DifficultyId" class="text-danger"></span>
             </div>
 
-            @*<div>
-                <asp:Button ID="BtnAgain" class="btn btn-primary" runat="server" OnClientClick="addNewIngredient()" Text="Click me" />
-                <button type="button" class="btn btn-primary" OnClientClick="javascript:addNewIngredient()">Add more ingredient</button>
-                <button type="button" class="btn btn-danger">Remove last ingredient</button>
+            <div id="orderItemsContainer">
+                @Html.EditorFor(model => model.RecipeIngredients)
             </div>
-            
-            <div id="ingredientDiv">
-                <div class="form-group">
-                    <label asp-for="RecipeIngredients" class="col-form-label"></label>
-                    <input asp-for="RecipeIngredients" class="form-control" />
-                    <span asp-validation-for="RecipeIngredients" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-4">
+                    <input class="btn btn-primary" type="button" id="btnAdd" value="Add product" />
                 </div>
-            </div>*@
+                <div class="col-md-4">
+                    <input class="btn btn-danger" type="button" id="btnRemove" value="Remove last product" />
+                </div>
+            </div>
 
-            <input type="hidden" asp-for="IsActive" value="true" />
+            <input type="hidden" asp-for="IsActive" value="true"/>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <input type="submit" value="Create recipe" class="btn btn-success"/>
+                </div>
             </div>
         </form>
     </div>
@@ -98,13 +98,30 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
-        function addNewIngredient() {
-            var newIngredient = document.createElement("div").setAttribute("class", "form-group");
-            var newLabel = document.createElement("label");
-            var newInput = document.createElement("input");
-            var list = document.getElementById("ingredientDiv").getElementsByTagName("div");
-            list.appendChild(newIngredient);
-            newIngredient.appendChild(newLabel).appendChild(newInput);
-        }
+        $("#btnAdd").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Recipes/AddOrderItem',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#orderItemsContainer').html(partialView);
+                }
+            });
+        });
+
+        $("#btnRemove").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Recipes/RemoveOrderItem',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#orderItemsContainer').html(partialView);
+                }
+            });
+        });
     </script>
 }

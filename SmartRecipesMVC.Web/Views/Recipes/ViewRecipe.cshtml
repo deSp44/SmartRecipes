@@ -6,6 +6,7 @@
 
 <h1>ViewRecipe</h1>
 <hr/>
+
 <div>
     <dl class="row">
         <dt class="col-sm-2">
@@ -80,7 +81,7 @@
 </div>
 
 <div>
-    @Html.ActionLink("Edit", "EditRecipe", new {/* id = Model.PrimaryKey */}) |
-    @Html.ActionLink("Delete", "DeleteRecipe", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "EditRecipe", new { id = Model.Id }) |
+    @Html.ActionLink("Delete", "MoveToTrash", "Recipes", new { id = Model.Id }, null) |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -16,6 +16,7 @@ namespace SmartRecipesMVC.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddTransient<IRecipeService, RecipeService>();
+            services.AddTransient<ITrashService, TrashService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;

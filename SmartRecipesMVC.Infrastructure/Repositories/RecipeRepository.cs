@@ -23,6 +23,11 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             return _context.Recipes.Where(x => x.IsActive);
         }
 
+        public IQueryable<Recipe> GetAllDeletedRecipes()
+        {
+            return _context.Recipes.Where(x => x.IsActive == false);
+        }
+
         public Recipe GetRecipe(int recipeId)
         {
             return _context.Recipes
@@ -37,7 +42,7 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             return recipe.Id;
         }
 
-        public void UpdateCustomer(Recipe recipe)
+        public void UpdateRecipe(Recipe recipe)
         {
             _context.Attach(recipe);
             _context.Entry(recipe).Property("Name").IsModified = true;
@@ -49,14 +54,11 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteRecipe(int recipeId)
+        public void MoveToTrash(Recipe recipe)
         {
-            var recipe = _context.Recipes.Find(recipeId);
-            if (recipe != null)
-            {
-                _context.Recipes.Remove(recipe);
-                _context.SaveChanges();
-            }
+            _context.Attach(recipe);
+            _context.Entry(recipe).Property("IsActive").IsModified = true;
+            _context.SaveChanges();
         }
 
         public IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId)

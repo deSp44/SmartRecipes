@@ -11,9 +11,9 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
     public class RecipeForListVm : IMapFrom<Domain.Model.Recipe>
     {
         public int Id { get; set; }
-        [DisplayName("Nazwa")] public string Name { get; set; }
-        [DisplayName("Opis")] public string Description { get; set; }
-        [DisplayName("Data utworzenia")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
+        [DisplayName("Name")] public string Name { get; set; }
+        [DisplayName("Description")] public string Description { get; set; }
+        [DisplayName("Create date")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
         public bool IsActive { get; set; }
 
         public IList<Image> Images { get; set; }

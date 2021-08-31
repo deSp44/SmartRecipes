@@ -10,11 +10,13 @@ namespace SmartRecipesMVC.Domain.Interface
     public interface IRecipeRepository
     {
         IQueryable<Recipe> GetAllActiveRecipes();
+        IQueryable<Recipe> GetAllDeletedRecipes();
         Recipe GetRecipe(int recipeId);
         int AddRecipe(Recipe recipe);
-        //int EditRecipe(Recipe recipe);
-        void DeleteRecipe(int recipeId);
+        void UpdateRecipe(Recipe recipe);
+        void MoveToTrash(Recipe recipe);
+
         IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId);
-        void UpdateCustomer(Recipe recipe);
+        
     }
 }

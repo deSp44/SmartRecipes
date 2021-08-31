@@ -9,11 +9,11 @@ namespace SmartRecipesMVC.Application.Interfaces
 {
     public interface IRecipeService
     {
-        ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString);
+        ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash);
         RecipeDetailsVm GetRecipeDetails(int recipeId);
         int AddRecipe(NewRecipeVm recipe);
         NewRecipeVm GetRecipeForEdit(int id);
         void UpdateRecipe(NewRecipeVm model);
-        void DeleteRecipe(int id);
+        void MoveToTrash (int id);
     }
 }

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using SmartRecipesMVC.Application.Interfaces;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
@@ -21,7 +23,7 @@ namespace SmartRecipesMVC.Web.Controllers
 
         [HttpGet] public IActionResult Index()
         {
-            var model = _recipeService.GetAllRecipesForList(12, 1, "");
+            var model = _recipeService.GetAllRecipesForList(12, 1, "", false);
             return View(model);
         }
 
@@ -31,7 +33,7 @@ namespace SmartRecipesMVC.Web.Controllers
             pageNumber ??= 1;
             searchString ??= string.Empty;
 
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString);
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false);
             return View(model);
         }
 
@@ -47,10 +49,26 @@ namespace SmartRecipesMVC.Web.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost] public IActionResult AddRecipe(NewRecipeVm model)
+        [HttpPost] public IActionResult AddRecipe([Bind("Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,DifficultyId,IsActive,RecipeIngredients")]NewRecipeVm model)
         {
             var id = _recipeService.AddRecipe(model);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddOrderItem([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
+        {
+            newRecipeVm.RecipeIngredients.Add(new RecipeIngredient());
+            return PartialView("RecipeIngredients", newRecipeVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveOrderItem([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
+        {
+            newRecipeVm.RecipeIngredients.RemoveAt(newRecipeVm.RecipeIngredients.Count - 1);
+            return PartialView("RecipeIngredients", newRecipeVm);
         }
 
         [HttpGet] public IActionResult EditRecipe(int id)
@@ -66,10 +84,11 @@ namespace SmartRecipesMVC.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteRecipe(int id)
+        public IActionResult MoveToTrash(int id)
         {
-            _recipeService.DeleteRecipe(id);
+            _recipeService.MoveToTrash(id);
             return RedirectToAction("Index");
         }
+
     }
 }

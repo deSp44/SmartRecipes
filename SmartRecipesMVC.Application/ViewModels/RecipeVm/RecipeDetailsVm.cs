@@ -17,18 +17,18 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
     public class RecipeDetailsVm : IMapFrom<Domain.Model.Recipe>
     {
         public int Id { get; set; }
-        [DisplayName("Nazwa")] public string Name { get; set; }
-        [DisplayName("Opis")] public string Description { get; set; }
-        [DisplayName("Data utworzenia")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
-        [DisplayName("Czas przygotowania")] public short PreparationTime { get; set; }
-        [DisplayName("Porcje")] public short Portions { get; set; }
-        [DisplayName("Przygotowanie")] public string Preparation { get; set; }
-        [DisplayName("Wskazówki")] public string Hints { get; set; }
-        [DisplayName("Trudność")] public short DifficultyId { get; set; }
+        [DisplayName("Name")] public string Name { get; set; }
+        [DisplayName("Description")] public string Description { get; set; }
+        [DisplayName("Created date")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
+        [DisplayName("Preparation time")] public short PreparationTime { get; set; }
+        [DisplayName("Portions")] public short Portions { get; set; }
+        [DisplayName("Preparation")] public string Preparation { get; set; }
+        [DisplayName("Hints")] public string Hints { get; set; }
+        [DisplayName("Difficulty")] public short DifficultyId { get; set; }
 
         
-        [DisplayName("Składniki")] public IList<IngredientsDetailsVm> RecipeIngredients { get; set; }
-        [DisplayName("Zdjęcia")] public IList<ImageDetailsVm> Images { get; set; }
+        [DisplayName("Ingredients")] public IList<IngredientsDetailsVm> RecipeIngredients { get; set; }
+        [DisplayName("Images")] public IList<ImageDetailsVm> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 
         public void Mapping(Profile profile)

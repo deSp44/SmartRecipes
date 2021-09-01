@@ -34,7 +34,7 @@ namespace SmartRecipesMVC.Web
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation()
-                .AddFluentValidation(fv => fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
+                .AddFluentValidation(fv => fv.DisableDataAnnotationsValidation = true);
 
             // DEPENDENCY INJECTION
             services.AddApplication();
@@ -59,11 +59,19 @@ namespace SmartRecipesMVC.Web
             });
 
             // GOOGLE AUTHENTICATION
-            services.AddAuthentication().AddGoogle(options =>
+            services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
+                IConfigurationSection googConfigurationSection = Configuration.GetSection("Authentication:Google");
+                googleOptions.ClientId = googConfigurationSection["ClientId"];
+                googleOptions.ClientSecret = googConfigurationSection["ClientSecret"];
+            });
+
+            // FACEBOOK AUTHENTICATION
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                IConfigurationSection facebookConfigurationSection = Configuration.GetSection("Authentication:Facebook");
+                facebookOptions.AppId = facebookConfigurationSection["AppId"];
+                facebookOptions.AppSecret = facebookConfigurationSection["AppSecret"];
             });
         }
 

@@ -95,7 +95,7 @@ body {
 }
 
 .parallax {
-    min-height: 550px;
+    min-height: 580px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -107,3 +107,14 @@ body {
         background-attachment: scroll;
     }
 }
+
+.btn-google {
+    color: white;
+    background-color: #ea4335
+}
+
+.btn-facebook {
+    color: white;
+    background-color: #3b5998
+}
+

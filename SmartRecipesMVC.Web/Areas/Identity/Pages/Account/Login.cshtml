@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<head>
+    <title>@ViewData["Title"]SmartRecipes</title>
+</head>
 
 <h1>@ViewData["Title"]</h1>
 <div class="row">
@@ -15,12 +18,12 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" placeholder="Enter email"/>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Enter email" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" placeholder="Password"/>
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -69,7 +72,14 @@
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    if (provider.Name == "Google")
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-lg btn-google btn-block text-uppercase" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-google mr-2"></i>Sign in with Google</button>
+                                    }
+                                    else if (provider.Name == "Facebook")
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-lg btn-facebook btn-block text-uppercase" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook-f mr-2"></i>Sign in with Facebook</button>
+                                    }
                                 }
                             </p>
                         </div>
@@ -79,7 +89,3 @@
         </section>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

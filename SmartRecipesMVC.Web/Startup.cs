@@ -1,9 +1,9 @@
-using System;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SmartRecipesMVC.Application;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Infrastructure;
+using SmartRecipesMVC.Web.Services;
 
 namespace SmartRecipesMVC.Web
 {
@@ -52,7 +53,7 @@ namespace SmartRecipesMVC.Web
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
 
-                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
 
                 options.Lockout.AllowedForNewUsers = false;
@@ -73,6 +74,10 @@ namespace SmartRecipesMVC.Web
                 facebookOptions.AppId = facebookConfigurationSection["AppId"];
                 facebookOptions.AppSecret = facebookConfigurationSection["AppSecret"];
             });
+
+            // EMAIL SENDER (SENDGRID)
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

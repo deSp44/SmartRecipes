@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SmartRecipesMVC.Web.Models;
+using SmartRecipesMVC.Web.Services.Models;
 
 namespace SmartRecipesMVC.Web.Controllers
 {

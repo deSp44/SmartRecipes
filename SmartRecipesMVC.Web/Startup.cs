@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartRecipesMVC.Application;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
+using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Infrastructure;
 using SmartRecipesMVC.Web.Services;
 
@@ -28,16 +29,25 @@ namespace SmartRecipesMVC.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // DATABASE
+            services.AddDbContext<Context>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<Context>();
 
+            // RAZOR
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation()
                 .AddFluentValidation(fv => fv.DisableDataAnnotationsValidation = true);
 
+            // DEFAULT IDENTITY
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<Context>();
+
             // DEPENDENCY INJECTION
+            services.AddApplication();
             services.AddApplication();
             services.AddInfrastructure();
 
@@ -53,7 +63,11 @@ namespace SmartRecipesMVC.Web
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
 
+                options.SignIn.RequireConfirmedAccount = true;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                options.User.RequireUniqueEmail = true;
                 options.User.RequireUniqueEmail = true;
 
                 options.Lockout.AllowedForNewUsers = false;

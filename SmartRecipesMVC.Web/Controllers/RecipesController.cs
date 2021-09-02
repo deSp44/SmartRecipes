@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
+using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Web.Controllers
@@ -21,19 +24,34 @@ namespace SmartRecipesMVC.Web.Controllers
             _recipeService = recipeService;
         }
 
+        public string AuthenticateUser()
+        {
+            string _userId;
+            if (User.Identity is ClaimsIdentity claimsIdentity)
+            {
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                _userId = userIdClaim.Value;
+                return _userId;
+            }
+            return null;
+        }
+
         [HttpGet] public IActionResult Index()
         {
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", false);
+            var userId = AuthenticateUser();
+            var model = _recipeService.GetAllRecipesForList(12, 1, "", false, userId);
             return View(model);
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost] public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
+            var userId = AuthenticateUser();
             pageNumber ??= 1;
             searchString ??= string.Empty;
-
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false);
+        
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false, userId);
             return View(model);
         }
 

@@ -20,13 +20,13 @@ namespace SmartRecipesMVC.Application.Services
             _mapper = mapper;
         }
 
-        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash)
+        public ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash, string userId)
         {
             List<RecipeForListVm> recipes;
             if(!trash)
             {
                 recipes = _recipeRepository.GetAllActiveRecipes()
-                    .Where(p => p.Name.StartsWith(searchString))
+                    .Where(p => p.Name.StartsWith(searchString) && p.OwnerId == userId)
                     .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
                     .ToList();
             }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using SmartRecipesMVC.Application.Interfaces;
@@ -20,10 +21,24 @@ namespace SmartRecipesMVC.Web.Controllers
             _recipeService = recipeService;
         }
 
+        public string AuthenticateUser()
+        {
+            string _userId;
+            if (User.Identity is ClaimsIdentity claimsIdentity)
+            {
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                _userId = userIdClaim.Value;
+                return _userId;
+            }
+            return null;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", true);
+            var userId = AuthenticateUser();
+            var model = _recipeService.GetAllRecipesForList(12, 1, "", true, userId);
             return View(model);
         }
 
@@ -31,10 +46,11 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
+            var userId = AuthenticateUser();
             pageNumber ??= 1;
             searchString ??= string.Empty;
 
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, true);
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, true, userId);
             return View(model);
         }
 

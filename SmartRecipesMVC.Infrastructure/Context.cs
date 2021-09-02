@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
@@ -13,6 +14,7 @@ namespace SmartRecipesMVC.Infrastructure
         public DbSet<RecipeTag> RecipeTag { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public Context(DbContextOptions options) : base(options)
         {
@@ -22,6 +24,13 @@ namespace SmartRecipesMVC.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // USER <-ONE-TO-MANY-> RECIPE
+            builder.Entity<Recipe>()
+                .HasOne(it => it.ApplicationUser)
+                .WithMany(i => i.Recipes)
+                .HasForeignKey(it => it.OwnerId);
+
 
             // RECIPE <-> RECIPE-TAG <-> TAG
             builder.Entity<RecipeTag>()

@@ -9,7 +9,7 @@ namespace SmartRecipesMVC.Application.Interfaces
 {
     public interface IRecipeService
     {
-        ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash);
+        ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash, string userId);
         RecipeDetailsVm GetRecipeDetails(int recipeId);
         int AddRecipe(NewRecipeVm recipe);
         NewRecipeVm GetRecipeForEdit(int id);

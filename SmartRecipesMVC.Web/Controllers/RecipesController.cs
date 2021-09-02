@@ -11,6 +11,7 @@ using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
+using SmartRecipesMVC.Web.Helpers;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
@@ -18,28 +19,17 @@ namespace SmartRecipesMVC.Web.Controllers
     public class RecipesController : Controller
     {
         private readonly IRecipeService _recipeService;
+        private readonly AuthenticateUser _authenticateUser;
 
-        public RecipesController(IRecipeService recipeService)
+        public RecipesController(IRecipeService recipeService, AuthenticateUser authenticateUser)
         {
             _recipeService = recipeService;
-        }
-
-        public string AuthenticateUser()
-        {
-            string _userId;
-            if (User.Identity is ClaimsIdentity claimsIdentity)
-            {
-                var userIdClaim = claimsIdentity.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-                _userId = userIdClaim.Value;
-                return _userId;
-            }
-            return null;
+            _authenticateUser = authenticateUser;
         }
 
         [HttpGet] public IActionResult Index()
         {
-            var userId = AuthenticateUser();
+            var userId = _authenticateUser.GetUserId();
             var model = _recipeService.GetAllRecipesForList(12, 1, "", false, userId);
             return View(model);
         }
@@ -47,7 +37,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         [HttpPost] public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
-            var userId = AuthenticateUser();
+            var userId = _authenticateUser.GetUserId();
             pageNumber ??= 1;
             searchString ??= string.Empty;
         

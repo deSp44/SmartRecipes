@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using SmartRecipesMVC.Application.Interfaces;
+using SmartRecipesMVC.Web.Helpers;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
@@ -14,30 +15,20 @@ namespace SmartRecipesMVC.Web.Controllers
     {
         private readonly ITrashService _trashService;
         private readonly IRecipeService _recipeService;
-        
-        public TrashController(ITrashService trashService, IRecipeService recipeService)
+        private readonly AuthenticateUser _authenticateUser;
+
+        public TrashController(ITrashService trashService, IRecipeService recipeService, AuthenticateUser authenticateUser)
         {
             _trashService = trashService;
             _recipeService = recipeService;
+            _authenticateUser = authenticateUser;
         }
 
-        public string AuthenticateUser()
-        {
-            string _userId;
-            if (User.Identity is ClaimsIdentity claimsIdentity)
-            {
-                var userIdClaim = claimsIdentity.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-                _userId = userIdClaim.Value;
-                return _userId;
-            }
-            return null;
-        }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var userId = AuthenticateUser();
+            var userId = _authenticateUser.GetUserId();
             var model = _recipeService.GetAllRecipesForList(12, 1, "", true, userId);
             return View(model);
         }
@@ -46,7 +37,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
-            var userId = AuthenticateUser();
+            var userId = _authenticateUser.GetUserId();
             pageNumber ??= 1;
             searchString ??= string.Empty;
 

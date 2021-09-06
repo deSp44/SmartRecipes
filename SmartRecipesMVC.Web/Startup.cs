@@ -68,7 +68,6 @@ namespace SmartRecipesMVC.Web
                 options.SignIn.RequireConfirmedPhoneNumber = false;
 
                 options.User.RequireUniqueEmail = true;
-                options.User.RequireUniqueEmail = true;
 
                 options.Lockout.AllowedForNewUsers = false;
             });

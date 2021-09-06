@@ -24,7 +24,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Portions")] public short Portions { get; set; }
         [DisplayName("Preparation")] public string Preparation { get; set; }
         [DisplayName("Hints")] public string Hints { get; set; }
-        [DisplayName("Difficulty")] public short DifficultyId { get; set; }
+        [DisplayName("Difficulty")] public string Difficulty { get; set; }
 
         
         [DisplayName("Ingredients")] public IList<IngredientsDetailsVm> RecipeIngredients { get; set; }

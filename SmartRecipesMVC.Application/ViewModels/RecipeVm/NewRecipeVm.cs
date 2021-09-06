@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using AutoMapper;
 using FluentValidation;
 using SmartRecipesMVC.Application.Mapping;
@@ -19,6 +20,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         }
 
         public int Id { get; set; }
+        public string OwnerId { get; set; }
         [DisplayName("Name")] public string Name { get; set; }
         [DisplayName("Description")] public string Description { get; set; }
         [DisplayName("Create date")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
@@ -26,11 +28,11 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Portions")] public short Portions { get; set; }
         [DisplayName("Preparation")] public string Preparation { get; set; }
         [DisplayName("Hints")] public string Hints { get; set; }
-        [DisplayName("Difficulty")] public short DifficultyId { get; set; }
+        [DisplayName("Difficulty")] public string Difficulty { get; set; }
         public bool IsActive { get; set; }
 
         [DisplayName("Ingredients")] public IList<RecipeIngredient> RecipeIngredients { get; set; }
-        //[DisplayName("Zdjęcia")] public IList<Image> Images { get; set; }
+        [DisplayName("Add images")] public IList<Image> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 
         public void Mapping(Profile profile)
@@ -41,10 +43,18 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 
     public class NewRecipeValidation : AbstractValidator<NewRecipeVm>
     {
+        private const string V = "das";
+
         public NewRecipeValidation()
         {
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.Name).MaximumLength(255);
+            RuleFor(x => x.Name).NotNull().MaximumLength(255);
+            RuleFor(x => x.Description).NotNull().MaximumLength(255);
+            RuleFor(x => x.CreateDate).NotNull();
+            RuleFor(x => x.PreparationTime).NotNull().GreaterThanOrEqualTo((short)1);
+            RuleFor(x => x.Portions).NotNull().GreaterThanOrEqualTo((short)1);
+            RuleFor(x => x.Preparation).NotNull();
+            RuleFor(x => x.Difficulty).NotNull();
         }
     }
 }

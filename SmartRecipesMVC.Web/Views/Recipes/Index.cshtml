@@ -8,21 +8,20 @@
 
 <div class="hstack">
     <form asp-action="Index" asp-controller="Recipes" method="get">
-        <div>
+        <div class="mt-2">
             <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get"/>
         </div>
     </form>
     <form asp-action="Index" asp-controller="Recipes" method="post">
         <div class="hstack">
-            <div>
-                <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" aria-atomicplaceholder="Search...">
+            <div class="mt-2 col-md-12">
+                <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Search...">
             </div>
-            <div>
+            <div class="mt-2 col-md-3">
                 <input type="submit" class="btn btn-secondary" value="Search"/>
             </div>
-            <div class="vr"></div>
-            <div>
-                <input type="submit" class="btn btn-outline-danger" value="Reset"/>
+            <div class="mt-2 col-md-2">
+                <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index">Reset</a>
             </div>
         </div>
         <input type="hidden" name="pageNumber" id="pageNumber"/>
@@ -40,7 +39,7 @@
                 <a class="page-link" asp-area="" asp-controller="Recipes" asp-action="ViewRecipe" asp-route-recipeId="@item.Id">
                     @if (item.Images.Count == 0)
                     {
-                        <img class="my-image-crop card-img-top" src="~/Content/PageContent/image-not-found.png" alt="Image not found" />
+                        <img class="my-image-crop card-img-top card-height" src="~/Content/PageContent/image-not-found.png" alt="Image not found" />
                     }
                     else
                     {
@@ -48,7 +47,7 @@
                         {
                             if (image.IsMainImage)
                             {
-                                <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image corrupted" />
+                                <img class="my-image-crop card-img-top card-height" src="@Url.Content(image.ImagePath)" alt="Image corrupted" />
                             }
                         }
                     }
@@ -90,6 +89,8 @@
 
 @section Scripts
 {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
     <script type="text/javascript">
         function PagerClick(index) {
             document.getElementById("pageNumber").value = index;

@@ -118,3 +118,6 @@ body {
     background-color: #3b5998
 }
 
+@media only screen and (max-device-width: 1366px) {
+    .card-height { height: auto; }
+}

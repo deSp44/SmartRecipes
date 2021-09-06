@@ -69,7 +69,8 @@ namespace SmartRecipesMVC.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
+
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -92,22 +93,22 @@ namespace SmartRecipesMVC.Web.Areas.Identity.Pages.Account
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);
             }
+
             // If user with email from external login provider do not exist then create one.
-            else
+            var newUser = new ApplicationUser { UserName = email, Email = email , EmailConfirmed = true};
+            var result = await _userManager.CreateAsync(newUser);
+            if (result.Succeeded)
             {
-                var newUser = new ApplicationUser { UserName = email, Email = email , EmailConfirmed = true};
-                var result = await _userManager.CreateAsync(newUser);
-                if (result.Succeeded)
+                var newExtLogin = await _userManager.AddLoginAsync(newUser, info);
+                if (newExtLogin.Succeeded)
                 {
-                    var newExtLogin = await _userManager.AddLoginAsync(newUser, info);
-                    if (newExtLogin.Succeeded)
-                    {
-                        _logger.LogInformation("User {email} created an account using provider.", info.LoginProvider);
-                        await _signInManager.SignInAsync(newUser, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    _logger.LogInformation("User {email} created an account using provider.", info.LoginProvider);
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
             }
+
+            // If everything failed
             return Page();
         }
     }

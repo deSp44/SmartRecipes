@@ -80,37 +80,28 @@ namespace SmartRecipesMVC.Web.Controllers
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 model.OwnerId = userId;
 
+                // IMAGE UPLOAD
                 if (HttpContext.Request.Form.Files.Count != 0)
                 {
-                    var files = HttpContext.Request.Form.Files;
+                    var file = HttpContext.Request.Form.Files.FirstOrDefault();
                     model.Images = new List<Image>();
-                    var index = 1;
-                    foreach (var file in files)
-                    {
-                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString()
-                            .Trim();
-                        var fileExt = Path.GetExtension(fileName);
-                        var myUniqueFileName = (model.Name + "_" + model.CreateDate.ToString("dd-MM-yyyy") + "-" +
-                                                Convert.ToString(Guid.NewGuid())).Trim();
-                        var newFileName = myUniqueFileName + fileExt;
-                        fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
 
-                        using FileStream fs = System.IO.File.Create(fileName);
-                        file.CopyTo(fs);
-                        fs.Flush();
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition)
+                        .FileName.ToString()
+                        .Trim();
+                    var fileExt = Path.GetExtension(fileName);
+                    var myUniqueFileName = (model.Name + "_" + model.CreateDate.ToString("dd-MM-yyyy") + "-" + 
+                                            Convert.ToString(Guid.NewGuid())).Trim();
+                    var newFileName = myUniqueFileName + fileExt;
+                    fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
 
-                        var pathDb = @"~/Content/Images/" + newFileName;
-                        var image = new Image
-                        {
-                            Title = newFileName,
-                            ImagePath = pathDb,
-                            IsMainImage = index == 1
-                        };
+                    using FileStream fs = System.IO.File.Create(fileName);
+                    file.CopyTo(fs);
+                    fs.Flush();
 
-                        model.Images.Add(image);
-
-                        index++;
-                    }
+                    var pathDb = @"~/Content/Images/" + newFileName;
+                    var image = new Image { Title = newFileName, ImagePath = pathDb, IsMainImage = true };
+                    model.Images.Add(image);
                 }
 
                 var id = _recipeService.AddRecipe(model);
@@ -170,9 +161,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Public()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var model = _recipeService.GetAllPublicRecipes(12, 1, "", userId);
+            var model = _recipeService.GetAllPublicRecipes(12, 1, "");
             return View(model);
         }
 
@@ -180,12 +169,10 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpPost]
         public IActionResult Public(int pageSize, int? pageNumber, string searchString)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             pageNumber ??= 1;
             searchString ??= string.Empty;
 
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false, userId);
+            var model = _recipeService.GetAllPublicRecipes(pageSize, pageNumber.Value, searchString);
             return View(model);
         }
 

@@ -16,7 +16,7 @@ namespace SmartRecipesMVC.Application.Interfaces
         void UpdateRecipe(NewRecipeVm model);
         void MoveToTrash (int id);
 
-        ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString, string userId);
+        ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString);
 
         void DeleteRecipe(int id);
         void RestoreRecipe(int id);

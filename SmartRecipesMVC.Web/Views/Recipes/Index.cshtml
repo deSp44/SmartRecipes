@@ -6,30 +6,26 @@
 
 <h1>MY RECIPES</h1>
 
-<div class="hstack">
+<div class="btn-toolbar mb-3" role="toolbar">
     <form asp-action="Index" asp-controller="Recipes" method="get">
-        <div class="mt-2">
-            <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get"/>
+        <div class="btn-group mr-2 mb-2 btn-group-lg " role="group">
+            <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get" />
         </div>
     </form>
     <form asp-action="Index" asp-controller="Recipes" method="post">
-        <div class="hstack">
-            <div class="mt-2 col-md-12">
-                <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Search...">
-            </div>
-            <div class="mt-2 col-md-3">
-                <input type="submit" class="btn btn-secondary" value="Search"/>
-            </div>
-            <div class="mt-2 col-md-2">
+        <div class="input-group input-group-lg">
+            <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Search...">
+            <div class="input-group-prepend">
+                <input type="submit" class="btn btn-secondary" value="Search" />
                 <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index">Reset</a>
             </div>
         </div>
-        <input type="hidden" name="pageNumber" id="pageNumber"/>
-        <input type="hidden" name="pageSize" id="pageSize" value="12"/>
+        <input type="hidden" name="pageNumber" id="pageNumber" />
+        <input type="hidden" name="pageSize" id="pageSize" value="12" />
     </form>
 </div>
 
-<br/>
+<hr/>
 
 <div class="card-deck">
     @foreach (var item in Model.Recipes)
@@ -52,7 +48,7 @@
                         }
                     }
                     <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <h5 class="card-title text-truncate">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text text-truncate">@Html.DisplayFor(modelItem => item.Description)</p>
                     </div>
                     <div class="card-footer">
@@ -63,6 +59,7 @@
         </div>
     }
 </div>
+
 <div>
     <nav aria-label="Navigation">
         <ul class="pagination pagination-lg justify-content-center">

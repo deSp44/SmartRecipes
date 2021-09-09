@@ -37,7 +37,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         public bool IsActive { get; set; }
 
         [DisplayName("Ingredients")] public IList<RecipeIngredient> RecipeIngredients { get; set; }
-        [DisplayName("Add images")] public IList<Image> Images { get; set; }
+        [DisplayName("Add image")] public IList<Image> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 
         public void Mapping(Profile profile)

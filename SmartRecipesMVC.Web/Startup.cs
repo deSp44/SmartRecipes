@@ -59,7 +59,12 @@ namespace SmartRecipesMVC.Web
 
             //FLUENT VALIDATION
             services.AddTransient<IValidator<NewRecipeVm>, NewRecipeValidation>();
-            //services.AddTransient<IValidator<RecipeIngredient>, IngredientsValidation>();
+
+            // POLICY
+            services.AddAuthorization(option =>
+            {
+
+            });
 
             //REGISTER AND LOGIN RULES
             services.Configure<IdentityOptions>(options =>

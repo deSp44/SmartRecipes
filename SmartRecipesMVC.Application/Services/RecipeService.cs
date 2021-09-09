@@ -87,7 +87,7 @@ namespace SmartRecipesMVC.Application.Services
         }
 
         // PUBLIC
-        public ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString, string userId)
+        public ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString)
         {
             var recipes = _recipeRepository.GetAllPublicRecipes()
                 .Where(p => p.Name.StartsWith(searchString))

@@ -10,6 +10,11 @@
 
 <h1>AddRecipe</h1>
 <hr />
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddRecipe" id="form" enctype="multipart/form-data" type="post">
@@ -26,18 +31,13 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreateDate" class="col-form-label"></label>
-                <input asp-for="CreateDate" class="form-control" value="@DateTime.Now" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PreparationTime" class="col-form-label"></label>
-                <input asp-for="PreparationTime" class="form-control" />
+                <input asp-for="PreparationTime" value="@null" min="1" class="form-control" placeholder="in minutes"/>
                 <span asp-validation-for="PreparationTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Portions" class="col-form-label"></label>
-                <input asp-for="Portions" class="form-control" />
+                <input asp-for="Portions" value="@null" min="1" class="form-control" />
                 <span asp-validation-for="Portions" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,8 +66,8 @@
             <div class="form-group">
                 <label asp-for="RecipeIngredients" class="col-form-label"></label>
                 <div class="row">
-                    <div class="col-md-4">
-                        <input class="btn btn-primary" type="button" id="btnAdd" value="Add product" />
+                    <div class="col-md-4 mr-3">
+                        <input class="btn btn-primary" type="button" id="btnAdd" value="Add ingredient" />
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-danger" type="button" id="btnRemove" value="Remove"><i class="fas fa-times"></i></button>
@@ -81,24 +81,21 @@
             <div class="form-group">
                 <label asp-for="Images" class="col-form-label"></label>
                 <div class="col-md-10">
-                    <input type="file" name="files" multiple />
+                    <input type="file" name="images" accept=".jpg,.jpeg,.png" />
                     <span asp-validation-for="Images" class="text-danger"></span>
                 </div>
             </div>
 
             <input type="hidden" asp-for="IsActive" value="true" />
+            <input type="hidden" asp-for="CreateDate" value="@DateTime.Now" />
 
-            <div class="row mt-2">
-                <div class="col-md-4">
+            <div class="row mt-2 mb-4">
+                <div class="col-md-4 ">
                     <input type="submit" value="Create recipe" class="btn btn-success" />
                 </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts

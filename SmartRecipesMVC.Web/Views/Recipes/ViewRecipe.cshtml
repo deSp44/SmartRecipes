@@ -81,7 +81,10 @@
 </div>
 
 <div>
-    @Html.ActionLink("Edit", "EditRecipe", new { id = Model.Id }) |
-    @Html.ActionLink("Delete", "MoveToTrash", "Recipes", new { id = Model.Id }, null) |
+    @if (Model.OwnerId != null)
+    {
+        @Html.ActionLink("Edit", "EditRecipe", new { id = Model.Id })
+        @Html.ActionLink("Delete", "MoveToTrash", "Recipes", new { id = Model.Id }, null)
+    }
     <a asp-action="Index">Back to List</a>
 </div>

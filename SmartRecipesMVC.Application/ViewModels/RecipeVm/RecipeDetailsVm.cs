@@ -17,6 +17,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
     public class RecipeDetailsVm : IMapFrom<Domain.Model.Recipe>
     {
         public int Id { get; set; }
+        public string OwnerId { get; set; }
         [DisplayName("Name")] public string Name { get; set; }
         [DisplayName("Description")] public string Description { get; set; }
         [DisplayName("Created date")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
@@ -26,7 +27,6 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Hints")] public string Hints { get; set; }
         [DisplayName("Difficulty")] public string Difficulty { get; set; }
 
-        
         [DisplayName("Ingredients")] public IList<RecipeIngredient> RecipeIngredients { get; set; }
         [DisplayName("Images")] public IList<ImageDetailsVm> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }

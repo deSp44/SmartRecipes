@@ -5,58 +5,57 @@
 }
 
 <h1>TRASH</h1>
-<form asp-action="Index" asp-controller="Trash" method="get">
+<form asp-action="Trash" method="get">
     <div>
-        <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get"/>
+        <input type="submit" class="btn btn-success" value="Create new recipe" asp-action="AddRecipe" method="get" />
     </div>
 </form>
-<form asp-action="Index" asp-controller="Trash" method="post">
+<form asp-action="Trash" method="post">
     <div class="hstack">
         <div>
             <input class="form-control me-auto" type="text" asp-for="SearchString" name="searchString" id="searchString" aria-atomicplaceholder="Search...">
         </div>
         <div>
-            <input type="submit" class="btn btn-secondary" value="Search"/>
+            <input type="submit" class="btn btn-secondary" value="Search" />
         </div>
         <div class="vr"></div>
         <div>
-            <input type="submit" class="btn btn-outline-danger" value="Reset" onclick="location.reload();"/>
+            <input type="submit" class="btn btn-outline-danger" value="Reset" />
         </div>
     </div>
-    <br/>
+    <br />
 
     <div class="card-deck">
         @foreach (var item in Model.Recipes)
         {
             <div class="col-sm-4 mb-5">
-            <div class="card">
-                <a class="page-link">
-                    <div class="card-body d-flex justify-content-between py-2" >
-                        <input onclick="return confirmation()" type="submit" value="Restore" class="btn btn-success" asp-action="RestoreRecipe" asp-route-id="@item.Id" />
-                        <input onclick="return confirmation()" type="submit" value="Delete" class="btn btn-danger" asp-action="DeleteRecipe" asp-route-id="@item.Id" />
-                    </div>
-                    @if (item.Images.Count == 0)
-                    {
-                        <img class="my-image-crop card-img-top" src="~/Content/PageContent/image-not-found.png" alt="Image not found"/>
-                    }
-                    else
-                    {
-                        foreach (var image in item.Images)
+                <div class="card">
+                    <a class="page-link">
+                        @if (item.Images.Count == 0)
                         {
-                            if (image.IsMainImage)
+                            <img class="my-image-crop card-img-top" src="~/Content/PageContent/image-not-found.png" alt="Image not found" />
+                        }
+                        else
+                        {
+                            foreach (var image in item.Images)
                             {
-                                <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image corrupted"/>
+                                if (image.IsMainImage)
+                                {
+                                    <img class="my-image-crop card-img-top" src="@Url.Content(image.ImagePath)" alt="Image corrupted" />
+                                }
                             }
                         }
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                        <p class="card-text text-truncate">@Html.DisplayFor(modelItem => item.Description)</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Created @Html.DisplayFor(modelItem => item.CreateDate)</small>
-                    </div>
-                                </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <p class="card-text text-truncate">@Html.DisplayFor(modelItem => item.Description)</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-around">
+                                <input onclick="return confirmation()" type="submit" value="Restore" class="btn btn-success" asp-action="RestoreRecipe" asp-route-id="@item.Id" />
+                                <input onclick="return confirmation()" type="submit" value="Delete" class="btn btn-danger" asp-action="DeleteRecipe" asp-route-id="@item.Id" />
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         }
@@ -94,8 +93,8 @@
                     </a>
                 </li>
             </ul>
-            <input type="hidden" name="pageNumber" id="pageNumber"/>
-            <input type="hidden" name="pageSize" id="pageSize" value="12"/>
+            <input type="hidden" name="pageNumber" id="pageNumber" />
+            <input type="hidden" name="pageSize" id="pageSize" value="12" />
         </nav>
     </div>
 </form>

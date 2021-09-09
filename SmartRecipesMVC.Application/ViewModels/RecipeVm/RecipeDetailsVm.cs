@@ -27,18 +27,12 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Difficulty")] public string Difficulty { get; set; }
 
         
-        [DisplayName("Ingredients")] public IList<IngredientsDetailsVm> RecipeIngredients { get; set; }
+        [DisplayName("Ingredients")] public IList<RecipeIngredient> RecipeIngredients { get; set; }
         [DisplayName("Images")] public IList<ImageDetailsVm> Images { get; set; }
         //[DisplayName("Tagi")] public IList<TagsForListForRecipeDetailsVm> RecipeTags { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Model.Connections.RecipeIngredient, IngredientsDetailsVm>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
-                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
-                .ForMember(d => d.Weight, opt => opt.MapFrom(s => s.Weight))
-                .ForMember(d => d.Quantity, opt => opt.MapFrom(s => s.Quantity));
-
             profile.CreateMap<Domain.Model.Recipe, RecipeDetailsVm>();
         }
     }

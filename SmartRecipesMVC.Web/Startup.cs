@@ -10,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartRecipesMVC.Application;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Model;
+using SmartRecipesMVC.Domain.Model.Connections;
 using SmartRecipesMVC.Infrastructure;
 using SmartRecipesMVC.Web.Services;
 
@@ -37,7 +39,11 @@ namespace SmartRecipesMVC.Web
             // RAZOR
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation()
-                .AddFluentValidation(fv => fv.DisableDataAnnotationsValidation = true);
+                .AddFluentValidation(fv =>
+                {
+                    fv.DisableDataAnnotationsValidation = true;
+                    fv.ImplicitlyValidateChildProperties = true;
+                });
 
             // DEFAULT IDENTITY
             services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -53,6 +59,7 @@ namespace SmartRecipesMVC.Web
 
             //FLUENT VALIDATION
             services.AddTransient<IValidator<NewRecipeVm>, NewRecipeValidation>();
+            //services.AddTransient<IValidator<RecipeIngredient>, IngredientsValidation>();
 
             //REGISTER AND LOGIN RULES
             services.Configure<IdentityOptions>(options =>

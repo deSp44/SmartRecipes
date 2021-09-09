@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Data;
 using AutoMapper;
+using FluentValidation;
 using SmartRecipesMVC.Application.Mapping;
+using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 
 namespace SmartRecipesMVC.Application.ViewModels.IngredientVm
 {
@@ -13,7 +16,7 @@ namespace SmartRecipesMVC.Application.ViewModels.IngredientVm
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Model.Ingredient, IngredientsDetailsVm>();
+            profile.CreateMap<IngredientsDetailsVm, Domain.Model.Connections.RecipeIngredient>().ReverseMap();
         }
     }
 }

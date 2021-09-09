@@ -9,13 +9,11 @@
 }
 
 <h1>AddRecipe</h1>
-
-<h4>NewRecipeVm</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddRecipe" id="form" enctype="multipart/form-data" type="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <input asp-for="Id" type="hidden" />
             <div class="form-group">
                 <label asp-for="Name" class="col-form-label"></label>
@@ -43,17 +41,6 @@
                 <span asp-validation-for="Portions" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Preparation" class="col-form-label"></label>
-                <textarea asp-for="Preparation" class="form-control"></textarea>
-                <span asp-validation-for="Preparation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hints" class="col-form-label"></label>
-                <input asp-for="Hints" class="form-control" />
-                <span asp-validation-for="Hints" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
                 <label asp-for="Difficulty" class="col-form-label"></label>
                 <select class="custom-select" id="inputGroupSelect01" asp-for="Difficulty">
                     <option value="@null" selected>Choose...</option>
@@ -65,6 +52,16 @@
                 </select>
                 <span asp-validation-for="Difficulty" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Preparation" class="col-form-label"></label>
+                <textarea asp-for="Preparation" class="form-control" style="min-height: 200px"></textarea>
+                <span asp-validation-for="Preparation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hints" class="col-form-label"></label>
+                <input asp-for="Hints" class="form-control" />
+                <span asp-validation-for="Hints" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="RecipeIngredients" class="col-form-label"></label>
@@ -73,13 +70,12 @@
                         <input class="btn btn-primary" type="button" id="btnAdd" value="Add product" />
                     </div>
                     <div class="col-md-4">
-                        <input class="btn btn-danger" type="button" id="btnRemove" value="Remove last product" />
+                        <button class="btn btn-danger" type="button" id="btnRemove" value="Remove"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
                 <div id="orderItemsContainer">
                     @Html.EditorFor(model => model.RecipeIngredients)
                 </div>
-                <span asp-validation-for="RecipeIngredients" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -105,12 +101,14 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-    @section Scripts
+@section Scripts
 {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-        <script type="text/javascript">
-            $("#btnAdd").on('click', function () {
+    <script type="text/javascript">
+
+        $("#btnAdd").on('click',
+            function () {
                 $.ajax({
                     async: true,
                     data: $('#form').serialize(),
@@ -123,7 +121,8 @@
                 });
             });
 
-            $("#btnRemove").on('click', function () {
+        $("#btnRemove").on('click',
+            function () {
                 $.ajax({
                     async: true,
                     data: $('#form').serialize(),
@@ -135,5 +134,6 @@
                     }
                 });
             });
-        </script>
-    }
+
+    </script>
+}

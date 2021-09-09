@@ -34,10 +34,10 @@
                     @if (User.Identity is { IsAuthenticated: true })
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="" asp-action="">Public recipes</a>
+                            <a class="nav-link" asp-area="" asp-controller="Recipes" asp-action="Public">Public recipes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Trash" asp-action="Index">Trash</a>
+                            <a class="nav-link" asp-area="" asp-controller="Recipes" asp-action="Trash">Trash</a>
                         </li>
                     }
                     <li class="nav-item">

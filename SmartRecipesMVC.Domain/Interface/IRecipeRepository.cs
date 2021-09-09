@@ -16,7 +16,10 @@ namespace SmartRecipesMVC.Domain.Interface
         void UpdateRecipe(Recipe recipe);
         void MoveToTrash(Recipe recipe);
 
-        IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId);
-        
+        IQueryable<Recipe> GetAllPublicRecipes();
+
+        void DeleteRecipe(int recipeId);
+        void RestoreRecipe(int recipeId);
+
     }
 }

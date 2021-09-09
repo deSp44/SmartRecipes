@@ -3,9 +3,11 @@ using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SmartRecipesMVC.Application.Interfaces;
+using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Interface;
 using SmartRecipesMVC.Domain.Model;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Application.Services
 {
@@ -83,5 +85,38 @@ namespace SmartRecipesMVC.Application.Services
             recipe.IsActive = false;
             _recipeRepository.MoveToTrash(recipe);
         }
+
+        // PUBLIC
+        public ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString, string userId)
+        {
+            var recipes = _recipeRepository.GetAllPublicRecipes()
+                .Where(p => p.Name.StartsWith(searchString))
+                .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
+
+            var recipesToShow = recipes.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            var recipeList = new ListRecipeForListVm()
+            {
+                CurrentPage = pageNumber,
+                PageSize = pageSize,
+                SearchString = searchString,
+                Recipes = recipesToShow,
+                Count = recipes.Count
+            };
+            return recipeList;
+        }
+
+
+        // TRASH
+        public void DeleteRecipe(int id)
+        {
+            _recipeRepository.DeleteRecipe(id);
+        }
+
+        public void RestoreRecipe(int id)
+        {
+            _recipeRepository.RestoreRecipe(id);
+        }
+
     }
 }

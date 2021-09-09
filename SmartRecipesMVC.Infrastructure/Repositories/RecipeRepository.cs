@@ -61,13 +61,32 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public IQueryable<Recipe> GetRecipesByDifficultyId(int difficultyId)
+        public IQueryable<Recipe> GetAllPublicRecipes()
         {
-            throw new NotImplementedException();
-/*
-            var recipes = _context.Recipes.Where(x => x.DifficultyId == difficultyId);
-            return recipes;
-*/
+            return _context.Recipes.Where(x => x.IsActive && x.OwnerId == null);
         }
+        
+        public void DeleteRecipe(int recipeId)
+        {
+            var recipe = _context.Recipes.Find(recipeId);
+            if (recipe != null)
+            {
+                _context.Recipes.Remove(recipe);
+                _context.SaveChanges();
+            }
+        }
+
+        public void RestoreRecipe(int recipeId)
+        {
+            var recipe = _context.Recipes.Find(recipeId);
+            if (recipe != null)
+            {
+                recipe.IsActive = true;
+                _context.Attach(recipe);
+                _context.Entry(recipe).Property("IsActive").IsModified = true;
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

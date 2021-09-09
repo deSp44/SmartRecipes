@@ -18,7 +18,13 @@ namespace SmartRecipesMVC.Web.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Connection.RemoteIpAddress != null)
+            {
+                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                _logger.LogInformation("User entered website from IP:" + ip);
+            }
             _logger.LogInformation("User entered website");
+
             if (User.Identity is { IsAuthenticated: true })
                 return RedirectToAction("Index", "Recipes");
 

@@ -15,7 +15,6 @@ namespace SmartRecipesMVC.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddTransient<IRecipeRepository, RecipeRepository>();
-            services.AddTransient<ITrashRepository, TrashRepository>();
 
             return services;
         }

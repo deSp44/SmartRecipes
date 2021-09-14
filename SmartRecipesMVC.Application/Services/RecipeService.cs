@@ -35,7 +35,7 @@ namespace SmartRecipesMVC.Application.Services
             else
             {
                 recipes = _recipeRepository.GetAllDeletedRecipes()
-                    .Where(p => p.Name.StartsWith(searchString))
+                    .Where(p => p.Name.StartsWith(searchString) && p.OwnerId == userId)
                     .ProjectTo<RecipeForListVm>(_mapper.ConfigurationProvider)
                     .ToList();
             }

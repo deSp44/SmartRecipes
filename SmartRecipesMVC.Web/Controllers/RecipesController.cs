@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
+using SmartRecipesMVC.Web.Services.Models;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
@@ -60,7 +62,10 @@ namespace SmartRecipesMVC.Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _logger.LogInformation($"User {userId} view recipe with id: {recipeId}");
 
-            return View(recipeModel);
+            if (recipeModel.OwnerId == userId)
+                return View(recipeModel);
+
+            return RedirectToAction("Error");
         }
 
         [HttpGet]
@@ -211,6 +216,12 @@ namespace SmartRecipesMVC.Web.Controllers
             _recipeService.RestoreRecipe(id);
             _logger.LogInformation($"Recipe {id} was restored!");
             return RedirectToAction("Trash");
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

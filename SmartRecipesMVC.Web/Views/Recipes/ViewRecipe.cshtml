@@ -7,6 +7,8 @@
 <h1>View recipe</h1>
 <hr/>
 
+<a asp-action="Index">Back to List</a>
+
 <div>
     <dl class="row">
         <dt class="col-sm-2">
@@ -41,12 +43,14 @@
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PreparationTime)
+            <i class="fas fa-clock"></i>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PreparationTime)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Portions)
+            <i class="fas fa-utensils"></i>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Portions)
@@ -72,10 +76,18 @@
     <ul class="list-group">
         @foreach (var ingredient in Model.RecipeIngredients)
         {
-            <li class="list-group-item">
-                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                @Html.DisplayName(ingredient.Ingredient.Name)
-            </li>
+        <li class="list-group-item">
+            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+            @Html.DisplayName(ingredient.Ingredient.Name)
+            @if (ingredient.Weight != null)
+            {
+                @Html.DisplayName(" | " + ingredient.Weight.ToString() + " grams")
+            }
+            else
+            {
+                @Html.DisplayName(" | " + ingredient.Quantity + " quantity")
+            }
+        </li>
         }
     </ul>
 </div>

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace SmartRecipesMVC.Web
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -14,6 +14,8 @@ namespace SmartRecipesMVC.Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseIIS();
+                    webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -1,102 +1,145 @@
-﻿@model SmartRecipesMVC.Application.ViewModels.RecipeVm.RecipeDetailsVm
+﻿@using System.Data
+@model SmartRecipesMVC.Application.ViewModels.RecipeVm.RecipeDetailsVm
 
 @{
     ViewData["Title"] = "View recipe";
 }
 
-<h1>View recipe</h1>
+<br/>
+<h1>@Html.DisplayFor(model => model.Name)</h1>
 <hr/>
 
-<a asp-action="Index">Back to List</a>
+<a type="button" class="btn btn-link" asp-action="Index">Back to List</a>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <div>
+                @foreach (var image in Model.Images)
+                {
+                    if (image.IsMainImage)
+                    {
+                        <img src="@Url.Content(image.ImagePath)" class="my-image-crop img-thumbnail" alt="Image error">
+                    }
+                    else
+                    {
+                        <img src="~/Content/PageContent/image-not-found.png" class="my-image-crop img-thumbnail" alt="Image error">
+                    }
+                }
+            </div>
+        </div>
+        
+        <div class="card col-3 flexbox">
+            <h5 class="card-title" style="text-align: center">Information</h5>
+
+                <div class="row">
+                <div class="col-7">
+                    @Html.DisplayNameFor(model => model.Difficulty)
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="col-5">
+                    @Html.DisplayFor(model => model.Difficulty)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    @Html.DisplayNameFor(model => model.Portions)
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="col-5">
+                    @Html.DisplayFor(model => model.Portions)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    @Html.DisplayNameFor(model => model.PreparationTime)
+                    <i class="fas fa-hourglass"></i>
+                </div>
+                <div class="col-5">
+                    @Html.DisplayFor(model => model.PreparationTime) min.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="col-5">
+                    @Html.DisplayFor(model => model.CreateDate)
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-9">
+            <div>
+                <b>
+                    @Html.DisplayNameFor(model => model.Description)
+                    <i class="fas fa-sticky-note"></i>
+                </b>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayFor(model => model.Description)
+            </div>
+            <div>
+                <b>
+                    @Html.DisplayNameFor(model => model.Preparation)
+                    <i class="fas fa-book-open"></i>
+                </b>
+            </div>
+            <div>
+                @foreach (var item in Model.Preparation)
+                {
+                    <p>
+                        @Html.DisplayFor(modelItem => item)
+                    </p>
+                }
+            </div>
+            <div>
+                <b>
+                    @Html.DisplayNameFor(model => model.Hints)
+                    <i class="fas fa-lightbulb"></i>
+                </b>
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Hints)
+            </div>
+        </div>
+        <div class="card col-3" style="width: 18rem;">
+            <div class="card-header">
+                <b>
+                    @Html.DisplayNameFor(model => model.RecipeIngredients)
+                    <i class="fas fa-carrot"></i>
+                </b>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var ingredient in Model.RecipeIngredients)
+                {
+                    <li class="list-group-item">
+                        @Html.DisplayName(ingredient.Ingredient.Name)
+                        @if (ingredient.Weight != null)
+                        {
+                            @Html.DisplayName(" | " + ingredient.Weight.ToString() + " grams")
+                        }
+                        else
+                        {
+                            @Html.DisplayName(" | " + ingredient.Quantity + " quantity")
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Difficulty)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Difficulty)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PreparationTime)
-            <i class="fas fa-clock"></i>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PreparationTime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Portions)
-            <i class="fas fa-utensils"></i>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Portions)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Preparation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Preparation)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Hints)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Hints)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RecipeIngredients)
-        </dt>
-    </dl>
-</div>
-<div>
-    <ul class="list-group">
-        @foreach (var ingredient in Model.RecipeIngredients)
-        {
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-            @Html.DisplayName(ingredient.Ingredient.Name)
-            @if (ingredient.Weight != null)
-            {
-                @Html.DisplayName(" | " + ingredient.Weight.ToString() + " grams")
-            }
-            else
-            {
-                @Html.DisplayName(" | " + ingredient.Quantity + " quantity")
-            }
-        </li>
-        }
-    </ul>
-</div>
-
-<div>
+    <a type="button" class="btn btn-link" asp-action="Index">Back to List</a>
     @if (Model.OwnerId != null)
     {
-        @Html.ActionLink("Edit", "EditRecipe", new { id = Model.Id })
-        @Html.ActionLink("Delete", "MoveToTrash", "Recipes", new { id = Model.Id }, null)
+        <a type="button" class="btn btn-warning" asp-action="EditRecipe" asp-route-id="@Model.Id">Edit</a>
+        <a type="button" class="btn btn-danger" asp-action="MoveToTrash" asp-route-id="@Model.Id">Delete</a>
     }
-    <a asp-action="Index">Back to List</a>
 </div>
+<br/>

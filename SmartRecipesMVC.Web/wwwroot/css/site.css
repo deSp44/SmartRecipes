@@ -122,3 +122,8 @@ body {
     .card-height { height: auto; }
 }
 
+.flexbox {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+}

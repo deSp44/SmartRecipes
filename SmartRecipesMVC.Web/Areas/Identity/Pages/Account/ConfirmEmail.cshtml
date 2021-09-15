@@ -5,3 +5,8 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<p>Now you can click that button and log in!</p>
+<a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success">Login</a>

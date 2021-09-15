@@ -23,7 +23,7 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
         [DisplayName("Created date")] [DataType(DataType.Date)] public DateTime CreateDate { get; set; }
         [DisplayName("Preparation time")] public short PreparationTime { get; set; }
         [DisplayName("Portions")] public short Portions { get; set; }
-        [DisplayName("Preparation")] public string Preparation { get; set; }
+        [DisplayName("Preparation")] public List<string> Preparation { get; set; }
         [DisplayName("Hints")] public string Hints { get; set; }
         [DisplayName("Difficulty")] public string Difficulty { get; set; }
 
@@ -33,7 +33,12 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Model.Recipe, RecipeDetailsVm>();
+            profile.CreateMap<Domain.Model.Recipe, RecipeDetailsVm>()
+                .ForMember(dest => dest.Preparation,
+                    m => m.MapFrom(src => src.Preparation.Split(
+                        new[] { "\r\n", "\r", "\n" },
+                        StringSplitOptions.None
+                    ).ToList()));
         }
     }
 }

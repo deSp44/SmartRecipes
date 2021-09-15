@@ -54,7 +54,6 @@ namespace SmartRecipesMVC.Web
 
             // DEPENDENCY INJECTION
             services.AddApplication();
-            services.AddApplication();
             services.AddInfrastructure();
 
             //FLUENT VALIDATION
@@ -109,17 +108,19 @@ namespace SmartRecipesMVC.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile("Logs/myLog-{Date}.txt");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
-            else
+            else 
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -66,12 +66,10 @@ namespace SmartRecipesMVC.Application.ViewModels.RecipeVm
                     ingredient.RuleFor(x => x.Ingredient.Name).NotNull().NotEmpty();
 
                     ingredient.RuleFor(x => x.Weight).GreaterThan(0);
-                    ingredient.RuleFor(x => x.Weight).Null().When(y => y.Quantity.HasValue);
-                    ingredient.RuleFor(x => x.Weight).NotEmpty().When(y => y.Quantity is null);
-                    
+                    ingredient.RuleFor(x => x.Weight).Null().When(y => y.Quantity.HasValue).WithMessage("Jedno pole musi być puste");
+
                     ingredient.RuleFor(x => x.Quantity).GreaterThan(0);
-                    ingredient.RuleFor(x => x.Quantity).Null().When(y => y.Weight.HasValue);
-                    ingredient.RuleFor(x => x.Quantity).NotEmpty().When(y => y.Weight is null);
+                    ingredient.RuleFor(x => x.Quantity).Null().When(y => y.Weight.HasValue).WithMessage("Jedno pole musi być puste");
                 });
         }
     }

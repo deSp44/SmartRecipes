@@ -2,10 +2,12 @@
 using SmartRecipesMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SmartRecipesMVC.Domain.Model.Connections;
 
 namespace SmartRecipesMVC.Infrastructure.Repositories
 {
@@ -44,13 +46,19 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
 
         public void UpdateRecipe(Recipe recipe)
         {
+            var recipeIngredient =
+                _context.RecipeIngredient.Where(x => x.RecipeId == recipe.Id).Include(x => x.Ingredient);
+            foreach (var ingredient in recipeIngredient)
+            {
+                if (!recipe.RecipeIngredients.Contains(ingredient))
+                {
+                    _context.Ingredients.Remove(ingredient.Ingredient);
+                    _context.RecipeIngredient.Remove(ingredient);
+                }
+            }
+
             _context.Attach(recipe);
-            _context.Entry(recipe).Property("Name").IsModified = true;
-            _context.Entry(recipe).Property("Description").IsModified = true;
-            _context.Entry(recipe).Property("PreparationTime").IsModified = true;
-            _context.Entry(recipe).Property("Portions").IsModified = true;
-            _context.Entry(recipe).Property("Preparation").IsModified = true;
-            _context.Entry(recipe).Property("Hints").IsModified = true;
+            _context.Update(recipe);
             _context.SaveChanges();
         }
 

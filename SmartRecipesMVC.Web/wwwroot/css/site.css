@@ -104,7 +104,7 @@ body {
 
 @media only screen and (max-device-width: 1366px) {
     .parallax {
-        background-attachment: scroll;
+        max-height: 380px;
     }
 }
 

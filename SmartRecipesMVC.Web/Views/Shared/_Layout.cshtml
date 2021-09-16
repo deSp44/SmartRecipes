@@ -19,17 +19,15 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                 <img src="~/Content/Pagecontent/logo.png" height="45" width="45" alt="logo"> Smart Recipes
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="dropdown" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
@@ -42,16 +40,27 @@
                             <a class="nav-link" asp-area="" asp-controller="Recipes" asp-action="Trash">Trash</a>
                         </li>
                     }
+                    <li>
+                        <hr />
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                     </li>
+                    <li>
+                        <hr />
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-auto">
+                    <li>
+                        <partial name="_LoginPartial"/>
+                    </li>
                 </ul>
             </div>
         </div>
-        <partial name="_LoginPartial"/>
+
     </nav>
 </header>
 

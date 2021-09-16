@@ -4,62 +4,154 @@
     ViewData["Title"] = "Edit recipe";
 }
 
-<h1>EditRecipe</h1>
-
-<h4>NewRecipeVm</h4>
+<h1>Edit your recipe "@Model.Name"</h1>
 <hr />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditRecipe">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input type="hidden" asp-for="Id" class="form-control" />
+        <form asp-action="EditRecipe" id="form" enctype="multipart/form-data" type="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="Id" value="@Model.Id" type="hidden" />
+            <input asp-for="OwnerId" value="@Model.OwnerId" type="hidden" />
+            <input asp-for="CreateDate" value="@Model.CreateDate" type="hidden" />
+            <input asp-for="IsActive" value="@Model.IsActive" type="hidden" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="col-form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="col-form-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PreparationTime" class="control-label"></label>
-                <input asp-for="PreparationTime" class="form-control" />
+                <label asp-for="PreparationTime" class="col-form-label"></label>
+                @if (Model.PreparationTime == 0)
+                {
+                    <input asp-for="PreparationTime" value="@null" min="1" class="form-control" placeholder="in minutes" />
+                }
+                else
+                {
+                    <input asp-for="PreparationTime" min="1" class="form-control" placeholder="in minutes" />
+                }
                 <span asp-validation-for="PreparationTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Portions" class="control-label"></label>
-                <input asp-for="Portions" class="form-control" />
+                <label asp-for="Portions" class="col-form-label"></label>
+                @if (Model.Portions == 0)
+                {
+                    <input asp-for="Portions" value="@null" min="1" class="form-control" />
+                }
+                else
+                {
+                    <input asp-for="Portions" min="1" class="form-control" />
+                }
                 <span asp-validation-for="Portions" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Preparation" class="control-label"></label>
-                <input asp-for="Preparation" class="form-control" />
+                <label asp-for="Difficulty" class="col-form-label"></label>
+                <select class="custom-select" id="inputGroupSelect01" asp-for="Difficulty">
+                    <option value="@null" selected>Choose...</option>
+                    <option value="Very easy">Very easy</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Very hard">Very hard</option>
+                </select>
+                <span asp-validation-for="Difficulty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preparation" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="For a better display of the preparation, start each step with a new line">
+                    <i class="fas fa-question-circle"></i>
+                </span>
+                <textarea asp-for="Preparation" class="form-control" style="min-height: 200px"></textarea>
                 <span asp-validation-for="Preparation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Hints" class="control-label"></label>
+                <label asp-for="Hints" class="col-form-label"></label>
                 <input asp-for="Hints" class="form-control" />
                 <span asp-validation-for="Hints" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="RecipeIngredients" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="X button will delete last added ingredient">
+                    <i class="fas fa-question-circle"></i>
+                </span>
+                <div class="row">
+                    <div class="ml-3 mr-3">
+                        <input class="btn btn-primary" type="button" id="btnAdd" value="Add ingredient" />
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" type="button" id="btnRemove"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div id="orderItemsContainer">
+                    @Html.EditorFor(model => model.RecipeIngredients)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Images" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="Add image to your recipe (only .jpg .jpeg .png)">
+                    <i class="fas fa-question-circle"></i>
+                </span>
+                <div class="col-md-10">
+                    <input type="file" name="images" accept=".jpg,.jpeg,.png" />
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-2 mb-4">
+                <div class="col-md-4 ">
+                    <input type="submit" value="Confirm editing" class="btn btn-success" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
+@section Scripts
+{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        $("#btnAdd").on('click',
+            function () {
+                $.ajax({
+                    async: true,
+                    data: $('#form').serialize(),
+                    type: "POST",
+                    url: '/Recipes/AddOrderItem',
+                    success: function (partialView) {
+                        console.log("partialView: " + partialView);
+                        $('#orderItemsContainer').html(partialView);
+                    }
+                });
+            });
+
+        $("#btnRemove").on('click',
+            function () {
+                $.ajax({
+                    async: true,
+                    data: $('#form').serialize(),
+                    type: "POST",
+                    url: '/Recipes/RemoveOrderItem',
+                    success: function (partialView) {
+                        console.log("partialView: " + partialView);
+                        $('#orderItemsContainer').html(partialView);
+                    }
+                });
+            });
+
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 }

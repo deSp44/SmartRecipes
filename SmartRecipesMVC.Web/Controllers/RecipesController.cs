@@ -77,7 +77,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddRecipe(
-            [Bind("Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,Difficulty,IsActive,RecipeIngredients,Images,Weight,Quantity")]
+            [Bind("Id,OwnerId,Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,Difficulty,IsActive,RecipeIngredients,Images,Weight,Quantity")]
             NewRecipeVm model)
         {
             if (ModelState.IsValid)
@@ -120,18 +120,24 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult EditRecipe(int id)
         {
-            var customer = _recipeService.GetRecipeForEdit(id);
-            return View(customer);
+            var recipe = _recipeService.GetRecipeForEdit(id);
+            return View(recipe);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditRecipe(NewRecipeVm model)
+        public IActionResult EditRecipe(
+            [Bind("Id,OwnerId,Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,Difficulty,IsActive,RecipeIngredients,Images,Weight,Quantity")]
+            NewRecipeVm model)
         {
-            _recipeService.UpdateRecipe(model);
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _logger.LogInformation($"User {userId} edited recipe with id: {model.Id}");
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _recipeService.UpdateRecipe(model);
+                _logger.LogInformation($"User {userId} edited recipe with id: {model.Id}");
+                return RedirectToAction("ViewRecipe", new { recipeId = model.Id });
+            }
+            return View(model);
         }
 
         public IActionResult MoveToTrash(int id)

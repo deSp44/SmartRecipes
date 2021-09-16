@@ -8,7 +8,7 @@
     ViewData["Title"] = "Add recipe";
 }
 
-<h1>AddRecipe</h1>
+<h1>Add your new recipe</h1>
 <hr />
 
 <div>
@@ -32,12 +32,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="PreparationTime" class="col-form-label"></label>
-                <input asp-for="PreparationTime" value="@null" min="1" class="form-control" placeholder="in minutes"/>
+                @if (Model.PreparationTime == 0)
+                {
+                    <input asp-for="PreparationTime" value="@null" min="1" class="form-control" placeholder="in minutes" />
+                }
+                else
+                {
+                    <input asp-for="PreparationTime" min="1" class="form-control" placeholder="in minutes" />
+                }
                 <span asp-validation-for="PreparationTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Portions" class="col-form-label"></label>
-                <input asp-for="Portions" value="@null" min="1" class="form-control" />
+                @if (Model.Portions == 0)
+                {
+                    <input asp-for="Portions" value="@null" min="1" class="form-control" />
+                }
+                else
+                {
+                    <input asp-for="Portions" min="1" class="form-control" />
+                }
                 <span asp-validation-for="Portions" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,6 +68,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Preparation" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="For a better display of the preparation, start each step with a new line">
+                    <i class="fas fa-question-circle"></i>
+                </span>
                 <textarea asp-for="Preparation" class="form-control" style="min-height: 200px"></textarea>
                 <span asp-validation-for="Preparation" class="text-danger"></span>
             </div>
@@ -65,12 +82,15 @@
 
             <div class="form-group">
                 <label asp-for="RecipeIngredients" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="X button will delete last added ingredient">
+                    <i class="fas fa-question-circle"></i>
+                </span>
                 <div class="row">
-                    <div class="col-md-4 mr-3">
+                    <div class="ml-3 mr-3">
                         <input class="btn btn-primary" type="button" id="btnAdd" value="Add ingredient" />
                     </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-danger" type="button" id="btnRemove" value="Remove"><i class="fas fa-times"></i></button>
+                    <div>
+                        <button class="btn btn-danger" type="button" id="btnRemove"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
                 <div id="orderItemsContainer">
@@ -80,6 +100,9 @@
 
             <div class="form-group">
                 <label asp-for="Images" class="col-form-label"></label>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="Add image to your recipe (only .jpg .jpeg .png)">
+                    <i class="fas fa-question-circle"></i>
+                </span>
                 <div class="col-md-10">
                     <input type="file" name="images" accept=".jpg,.jpeg,.png" />
                     <span asp-validation-for="Images" class="text-danger"></span>
@@ -132,5 +155,8 @@
                 });
             });
 
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 }

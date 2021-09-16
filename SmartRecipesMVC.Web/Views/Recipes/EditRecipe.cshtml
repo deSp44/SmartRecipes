@@ -6,8 +6,9 @@
 
 <h1>Edit your recipe "@Model.Name"</h1>
 <hr />
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a type="button" class="btn btn-light" asp-action="Index"><i class="fas fa-arrow-alt-circle-left"></i> Back to List</a>
 </div>
 
 <div class="row">
@@ -83,6 +84,9 @@
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="right" title="X button will delete last added ingredient">
                     <i class="fas fa-question-circle"></i>
                 </span>
+                <div id="orderItemsContainer">
+                    @Html.EditorFor(model => model.RecipeIngredients)
+                </div>
                 <div class="row">
                     <div class="ml-3 mr-3">
                         <input class="btn btn-primary" type="button" id="btnAdd" value="Add ingredient" />
@@ -90,9 +94,6 @@
                     <div>
                         <button class="btn btn-danger" type="button" id="btnRemove"><i class="fas fa-times"></i></button>
                     </div>
-                </div>
-                <div id="orderItemsContainer">
-                    @Html.EditorFor(model => model.RecipeIngredients)
                 </div>
             </div>
 

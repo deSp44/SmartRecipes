@@ -106,7 +106,7 @@ body {
 
 @media only screen and (max-device-width: 1366px) {
     .parallax {
-        max-height: 380px;
+        background-attachment: scroll;
     }
 }
 
@@ -120,8 +120,12 @@ body {
     background-color: #3b5998
 }
 
+.card-height {
+    height: 300px;
+}
+
 @media only screen and (max-device-width: 1366px) {
-    .card-height { height: auto; }
+    .card-height { height: 300px; }
 }
 
 .flexbox {

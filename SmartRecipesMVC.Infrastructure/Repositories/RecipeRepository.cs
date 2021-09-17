@@ -37,6 +37,7 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
                 .Include(x => x.Images)
                 .FirstOrDefault(x => x.Id == recipeId);
         }
+
         public int AddRecipe(Recipe recipe)
         {
             _context.Recipes.Add(recipe);

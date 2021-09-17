@@ -9,9 +9,15 @@
 <h1>Images</h1>
 <hr/>
 
-<div>
+<div class="btn-toolbar" role="toolbar">
+    <form class="mr-1">
     <a type="button" class="btn btn-light" asp-controller="Recipes" asp-action="ViewRecipe" asp-route-recipeId="@Model.RecipeId"><i class="fas fa-arrow-alt-circle-left"></i> Back to recipe</a>
-    <a type="button" class="btn btn-success"><i class="fas fa-image"></i> Add image</a>
+    </form>
+    <form id="formUpload" enctype="multipart/form-data" asp-action="AddImage" asp-route-recipeId="@Model.RecipeId">
+        <label type="button" class="btn btn-success" id="addLabel">
+            <i class="fas fa-image"></i> Add image<input type="file" name="images" accept=".jpg,.jpeg,.png" hidden="" id="fileUpload"/>
+        </label>
+    </form>
 </div>
 
 <br/>
@@ -24,12 +30,14 @@
                 <i class="fas fa-question-circle"></i>
             </span>
         </h5>
-        <ul class="list-group">
-            @{
-                int i = 0;
-            }
-            @foreach (var image in Model.Images)
-            {
+        @if (Model.Images.Count != 0)
+        {
+            <ul class="list-group">
+                @{
+                    int i = 0;
+                }
+                @foreach (var image in Model.Images)
+                {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class=" form-check">
                         @if (image.IsMainImage)
@@ -48,8 +56,13 @@
                         @{ i++;}
                     </div>
                 </li>
-            }
-        </ul>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>The recipe does not contain any images yet. Add some!</p>
+        }
     </div>
 </form>
 
@@ -58,7 +71,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body mb-0 p-0">
-                <img id="imageInModal" src="" alt="Image corrupted" style="width:100%">
+                <img id="imageInModal" src="" alt="Image corrupted" style="width: 100%">
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-dark ml-4 text-center" data-dismiss="modal" type="button">Close</button>
@@ -85,12 +98,20 @@
             });
         });
 
-        $(document).on("click", ".openModalImage", function() {
-            var myImageUrl = $(this).data('url');
-            myImageUrl = myImageUrl.substring(1);
-            $('#imageInModal').attr("src", myImageUrl);
-        });
+        $(document).on("click",
+            ".openModalImage",
+            function() {
+                var myImageUrl = $(this).data('url');
+                myImageUrl = myImageUrl.substring(1);
+                $('#imageInModal').attr("src", myImageUrl);
+            });
 
         $('#modalToggle').modal('toggle');
+
+        $('#fileUpload').on("change",
+            function() {
+                $("#formUpload").submit();
+            });
+
     </script>
 }

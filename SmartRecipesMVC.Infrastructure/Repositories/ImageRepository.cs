@@ -36,6 +36,17 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
             return _context.Images.Where(x => x.RecipeId == recipeId);
         }
 
+        public Recipe GetRecipe(int recipeId)
+        {
+            return _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+        }
+
+        public void AddImage(Image image)
+        {
+            _context.Images.Add(image);
+            _context.SaveChanges();
+        }
+
         public int DeleteImage(int imageId)
         {
             var imageToDelete = _context.Images.Find(imageId);

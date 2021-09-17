@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.ImageVm;
+using SmartRecipesMVC.Domain.Model;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
@@ -41,6 +48,17 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult Delete(int imageId)
         {
             var recipeId = _imageService.DeleteImageFromRecipe(imageId);
+            return RedirectToAction("Index", new { recipeId });
+        }
+        public IActionResult AddImage(int recipeId)
+        {
+            if (HttpContext.Request.Form.Files.Count != 0)
+            {
+                var file = HttpContext.Request.Form.Files.FirstOrDefault();
+                _imageService.AddNewImage(recipeId, file);
+                return RedirectToAction("Index", new { recipeId });
+            }
+
             return RedirectToAction("Index", new { recipeId });
         }
     }

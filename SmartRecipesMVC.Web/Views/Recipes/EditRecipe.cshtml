@@ -4,11 +4,12 @@
     ViewData["Title"] = "Edit recipe";
 }
 
+<br />
 <h1>Edit your recipe "@Model.Name"</h1>
 <hr />
 
 <div>
-    <a type="button" class="btn btn-light" asp-action="Index"><i class="fas fa-arrow-alt-circle-left"></i> Back to List</a>
+    <a type="button" class="btn btn-light" asp-action="ViewRecipe" asp-route-recipeId="@Model.Id"><i class="fas fa-arrow-alt-circle-left"></i> Back to List</a>
 </div>
 
 <div class="row">

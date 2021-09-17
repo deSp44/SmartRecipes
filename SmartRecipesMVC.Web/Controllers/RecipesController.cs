@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using SmartRecipesMVC.Application.Interfaces;
-using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
@@ -105,7 +104,7 @@ namespace SmartRecipesMVC.Web.Controllers
                     fs.Flush();
 
                     var pathDb = @"~/Content/Images/" + newFileName;
-                    var image = new Image { Title = newFileName, ImagePath = pathDb, IsMainImage = true };
+                    var image = new Image { Title = myUniqueFileName, Ext = fileExt, ImagePath = pathDb, IsMainImage = true };
                     model.Images.Add(image);
                 }
 
@@ -222,6 +221,11 @@ namespace SmartRecipesMVC.Web.Controllers
             _recipeService.RestoreRecipe(id);
             _logger.LogInformation($"Recipe {id} was restored!");
             return RedirectToAction("Trash");
+        }
+
+        public IActionResult CreatePdf(int id)
+        {
+            return RedirectToAction("ViewRecipe", new { recipeId = id });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

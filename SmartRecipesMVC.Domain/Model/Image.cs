@@ -10,6 +10,7 @@ namespace SmartRecipesMVC.Domain.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Ext { get; set; }
         public string ImagePath { get; set; }
         public bool IsMainImage { get; set; }
 

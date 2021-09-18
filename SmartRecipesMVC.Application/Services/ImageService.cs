@@ -29,6 +29,11 @@ namespace SmartRecipesMVC.Application.Services
             _mapper = mapper;
         }
 
+        public string GetRecipeOwnerId(int recipeId)
+        {
+            return _imageRepository.GetRecipeOwnerId(recipeId);
+        }
+
         public ListOfImagesVm GetAllImagesForList(int recipeId, string userId)
         {
             var recipeImages = _imageRepository.GetAllRecipeImages(recipeId)
@@ -89,8 +94,7 @@ namespace SmartRecipesMVC.Application.Services
             };
 
             _imageRepository.AddImage(image);
-
-            return recipeId;
+            return recipe.Id;
         }
 
         public int DeleteImageFromRecipe(int imageId)

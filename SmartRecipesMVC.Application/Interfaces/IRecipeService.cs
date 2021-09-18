@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
 
 namespace SmartRecipesMVC.Application.Interfaces
@@ -14,6 +15,7 @@ namespace SmartRecipesMVC.Application.Interfaces
         int AddRecipe(NewRecipeVm recipe);
         NewRecipeVm GetRecipeForEdit(int id);
         void UpdateRecipe(NewRecipeVm model);
+        void AddNewImage(int recipeId, IFormFile file);
         void MoveToTrash (int id);
 
         ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString);

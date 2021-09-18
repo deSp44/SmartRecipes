@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.IngredientVm;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
@@ -15,11 +19,13 @@ namespace SmartRecipesMVC.Application.Services
     public class RecipeService : IRecipeService
     {
         private readonly IRecipeRepository _recipeRepository;
+        private readonly IHostEnvironment _environment;
         private readonly IMapper _mapper;
 
-        public RecipeService(IRecipeRepository recipeRepository, IMapper mapper)
+        public RecipeService(IRecipeRepository recipeRepository, IHostEnvironment environment, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
+            _environment = environment;
             _mapper = mapper;
         }
 
@@ -67,6 +73,28 @@ namespace SmartRecipesMVC.Application.Services
             return id;
         }
 
+        public void AddNewImage(int recipeId, IFormFile file)
+        {
+            var recipe = _recipeRepository.GetRecipe(recipeId);
+
+            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition)
+                .FileName.ToString()
+                .Trim();
+            var fileExt = Path.GetExtension(fileName);
+            var myUniqueFileName = (recipe.Name + "_" + recipe.CreateDate.ToString("dd-MM-yyyy") + "-" +
+                                    Convert.ToString(Guid.NewGuid())).Trim();
+            var newFileName = myUniqueFileName + fileExt;
+            fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
+
+            using FileStream fs = System.IO.File.Create(fileName);
+            file.CopyTo(fs);
+            fs.Flush();
+
+            var pathDb = @"~/Content/Images/" + newFileName;
+            var image = new Image { Title = myUniqueFileName, Ext = fileExt, ImagePath = pathDb, IsMainImage = true };
+            recipe.Images.Add(image);
+        }
+
         public NewRecipeVm GetRecipeForEdit(int id)
         {
             var recipe = _recipeRepository.GetRecipe(id);
@@ -107,7 +135,6 @@ namespace SmartRecipesMVC.Application.Services
             return recipeList;
         }
 
-
         // TRASH
         public void DeleteRecipe(int id)
         {
@@ -118,6 +145,5 @@ namespace SmartRecipesMVC.Application.Services
         {
             _recipeRepository.RestoreRecipe(id);
         }
-
     }
 }

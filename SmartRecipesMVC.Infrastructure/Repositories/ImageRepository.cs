@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,15 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
         public ImageRepository(Context context)
         {
             _context = context;
+        }
+
+        public string GetRecipeOwnerId(int recipeId)
+        {
+            var recipe = _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+            if (recipe != null)
+                return recipe.OwnerId;
+
+            return string.Empty;
         }
 
         public IQueryable<Image> GetAllRecipeImages(int recipeId)

@@ -9,6 +9,7 @@ namespace SmartRecipesMVC.Domain.Interface
 {
     public interface IImageRepository
     {
+        string GetRecipeOwnerId(int recipeId);
         IQueryable<Image> GetAllRecipeImages(int recipeId);
         IQueryable<Image> ChangeIsMainImage(int recipeId, int imageRadio);
         Recipe GetRecipe(int recipeId);

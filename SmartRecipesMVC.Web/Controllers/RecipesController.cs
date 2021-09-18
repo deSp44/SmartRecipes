@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
 using SmartRecipesMVC.Application.Interfaces;
 using SmartRecipesMVC.Application.ViewModels.RecipeVm;
-using SmartRecipesMVC.Domain.Model;
 using SmartRecipesMVC.Domain.Model.Connections;
 using SmartRecipesMVC.Web.Services.Models;
 
@@ -21,13 +16,13 @@ namespace SmartRecipesMVC.Web.Controllers
     public class RecipesController : Controller
     {
         private readonly IRecipeService _recipeService;
-        private readonly IHostEnvironment _environment;
+        private readonly IUserService _userService;
         private readonly ILogger<RecipesController> _logger;
 
-        public RecipesController(IRecipeService recipeService, IHostEnvironment environment, ILogger<RecipesController> logger)
+        public RecipesController(IRecipeService recipeService, IUserService userService, ILogger<RecipesController> logger)
         {
             _recipeService = recipeService;
-            _environment = environment;
+            _userService = userService;
             _logger = logger;
         }
 
@@ -35,9 +30,8 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", false, userId);
+            var model = _recipeService.GetAllRecipesForList(12, 1, "", false, _userService.GetUserId());
+            _logger.LogInformation($"User {_userService.GetUserId()} viewed private recipes.");
             return View(model);
         }
 
@@ -45,12 +39,9 @@ namespace SmartRecipesMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             pageNumber ??= 1;
             searchString ??= string.Empty;
-        
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false, userId);
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, false, _userService.GetUserId());
             return View(model);
         }
 
@@ -58,13 +49,13 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult ViewRecipe(int recipeId)
         {
             var recipeModel = _recipeService.GetRecipeDetails(recipeId);
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _logger.LogInformation($"User {userId} view recipe with id: {recipeId}");
-
-            if (recipeModel.OwnerId == userId)
+            if (recipeModel.OwnerId == _userService.GetUserId())
+            {
+                _logger.LogInformation($"User {_userService.GetUserId()} view recipe with id: {recipeId}.");
                 return View(recipeModel);
+            }
 
-            return RedirectToAction("Error");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -81,38 +72,18 @@ namespace SmartRecipesMVC.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                model.OwnerId = userId;
+                model.OwnerId = _userService.GetUserId();
 
-                // IMAGE UPLOAD
                 if (HttpContext.Request.Form.Files.Count != 0)
                 {
                     var file = HttpContext.Request.Form.Files.FirstOrDefault();
-                    model.Images = new List<Image>();
-
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition)
-                        .FileName.ToString()
-                        .Trim();
-                    var fileExt = Path.GetExtension(fileName);
-                    var myUniqueFileName = (model.Name + "_" + model.CreateDate.ToString("dd-MM-yyyy") + "-" + 
-                                            Convert.ToString(Guid.NewGuid())).Trim();
-                    var newFileName = myUniqueFileName + fileExt;
-                    fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
-
-                    using FileStream fs = System.IO.File.Create(fileName);
-                    file.CopyTo(fs);
-                    fs.Flush();
-
-                    var pathDb = @"~/Content/Images/" + newFileName;
-                    var image = new Image { Title = myUniqueFileName, Ext = fileExt, ImagePath = pathDb, IsMainImage = true };
-                    model.Images.Add(image);
+                    _recipeService.AddNewImage(model.Id, file);
                 }
 
                 var id = _recipeService.AddRecipe(model);
-                _logger.LogInformation($"User {userId} added recipe with id: {id}");
+                _logger.LogInformation($"User {_userService.GetUserId()} added recipe with id: {id}.");
                 return RedirectToAction("Index");
             }
-
             return View(model);
         }
 
@@ -120,20 +91,22 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult EditRecipe(int id)
         {
             var recipe = _recipeService.GetRecipeForEdit(id);
-            return View(recipe);
+            if (recipe.OwnerId == _userService.GetUserId())
+                return View(recipe);
+
+            return View("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditRecipe(
-            [Bind("Id,OwnerId,Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,Difficulty,IsActive,RecipeIngredients,Images,Weight,Quantity")]
+            [Bind("Id,OwnerId,Name,Description,CreateDate,PreparationTime,Portions,Preparation,Hints,Difficulty,IsActive,RecipeIngredients,Weight,Quantity")]
             NewRecipeVm model)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _recipeService.UpdateRecipe(model);
-                _logger.LogInformation($"User {userId} edited recipe with id: {model.Id}");
+                _logger.LogInformation($"User {_userService.GetUserId()} edited recipe with id: {model.Id}.");
                 return RedirectToAction("ViewRecipe", new { recipeId = model.Id });
             }
             return View(model);
@@ -141,8 +114,12 @@ namespace SmartRecipesMVC.Web.Controllers
 
         public IActionResult MoveToTrash(int id)
         {
-            _recipeService.MoveToTrash(id);
-            _logger.LogInformation($"Recipe {id} was moved to trash");
+            var recipe = _recipeService.GetRecipeDetails(id);
+            if (recipe.OwnerId == _userService.GetUserId())
+            {
+                _recipeService.MoveToTrash(id);
+                _logger.LogInformation($"Recipe {id} was moved to trash by user {_userService.GetUserId()}.");
+            }
             return RedirectToAction("Index");
         }
         
@@ -172,6 +149,7 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult Public()
         {
             var model = _recipeService.GetAllPublicRecipes(12, 1, "");
+            _logger.LogInformation($"User {_userService.GetUserId()} viewed public recipes.");
             return View(model);
         }
 
@@ -190,10 +168,8 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Trash()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", true, userId);
-
-            ViewData["Action"] = "Trash";
+            var model = _recipeService.GetAllRecipesForList(12, 1, "", true, _userService.GetUserId());
+            _logger.LogInformation($"User {_userService.GetUserId()} viewed trash.");
             return View(model);
         }
 
@@ -201,26 +177,33 @@ namespace SmartRecipesMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Trash(int pageSize, int? pageNumber, string searchString)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             pageNumber ??= 1;
             searchString ??= string.Empty;
 
-            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, true, userId);
+            var model = _recipeService.GetAllRecipesForList(pageSize, pageNumber.Value, searchString, true, _userService.GetUserId());
             return View(model);
         }
 
         public IActionResult DeleteRecipe(int id)
         {
-            _recipeService.DeleteRecipe(id);
-            _logger.LogInformation($"Recipe {id} was permanently deleted!");
-            return RedirectToAction("Trash");
+            var recipe = _recipeService.GetRecipeDetails(id);
+            if (recipe.OwnerId == _userService.GetUserId())
+            {
+                _recipeService.DeleteRecipe(id);
+                _logger.LogInformation($"Recipe {id} was permanently deleted!");
+            }
+            return RedirectToAction("Index");
         }
 
         public IActionResult RestoreRecipe(int id)
         {
-            _recipeService.RestoreRecipe(id);
-            _logger.LogInformation($"Recipe {id} was restored!");
-            return RedirectToAction("Trash");
+            var recipe = _recipeService.GetRecipeDetails(id);
+            if (recipe.OwnerId == _userService.GetUserId())
+            {
+                _recipeService.RestoreRecipe(id);
+                _logger.LogInformation($"Recipe {id} was restored!");
+            }
+            return RedirectToAction("Index");
         }
 
         public IActionResult CreatePdf(int id)
@@ -229,6 +212,7 @@ namespace SmartRecipesMVC.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -15,24 +16,28 @@ using SmartRecipesMVC.Domain.Model;
 
 namespace SmartRecipesMVC.Web.Controllers
 {
+    [Authorize]
     public class ImagesController : Controller
     {
         private readonly IImageService _imageService;
-        private readonly IHostEnvironment _environment;
+        private readonly IUserService _userService;
         private readonly ILogger<ImagesController> _logger;
 
-        public ImagesController(IImageService imageService, IHostEnvironment environment, ILogger<ImagesController> logger)
+        public ImagesController(IImageService imageService, IUserService userService, ILogger<ImagesController> logger)
         {
             _imageService = imageService;
-            _environment = environment;
+            _userService = userService;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Index(int recipeId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var images = _imageService.GetAllImagesForList(recipeId, userId);
+            if (_imageService.GetRecipeOwnerId(recipeId) != _userService.GetUserId())
+                return RedirectToAction("Index", "Recipes");
+
+            var images = _imageService.GetAllImagesForList(recipeId, _userService.GetUserId());
+            _logger.LogInformation($"User {_userService.GetUserId()} viewed images for recipe with id {recipeId}.");
             return View(images);
         }
 
@@ -40,22 +45,27 @@ namespace SmartRecipesMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(int recipeId, int imageRadio)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var images = _imageService.GetAllImagesForIsMainImage(recipeId, userId, imageRadio);
+            var images = _imageService.GetAllImagesForIsMainImage(recipeId, _userService.GetUserId(), imageRadio);
             return View(images);
         }
 
-        public IActionResult Delete(int imageId)
+        public IActionResult Delete(int imageId, int recipeIdToDelete)
         {
+            if (_imageService.GetRecipeOwnerId(recipeIdToDelete) != _userService.GetUserId())
+                return RedirectToAction("Index", "Recipes");
+
             var recipeId = _imageService.DeleteImageFromRecipe(imageId);
+            _logger.LogInformation($"User {_userService.GetUserId()} deleted image with id: {imageId}.");
             return RedirectToAction("Index", new { recipeId });
         }
+
         public IActionResult AddImage(int recipeId)
         {
             if (HttpContext.Request.Form.Files.Count != 0)
             {
                 var file = HttpContext.Request.Form.Files.FirstOrDefault();
                 _imageService.AddNewImage(recipeId, file);
+                _logger.LogInformation($"User {_userService.GetUserId()} added image with id to recipe with id: {recipeId}.");
                 return RedirectToAction("Index", new { recipeId });
             }
 

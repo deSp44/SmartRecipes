@@ -66,33 +66,33 @@ namespace SmartRecipesMVC.Application.Services
             return recipeVm;
         }
 
-        public int AddRecipe(NewRecipeVm newRecipe)
+        public int AddRecipe(NewRecipeVm newRecipe, IFormFile file)
         {
+            if (file != null)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim();
+                var fileExt = Path.GetExtension(fileName);
+                var myUniqueFileName = (newRecipe.Name + "_" + newRecipe.CreateDate.ToString("dd-MM-yyyy") + "-" +
+                                        Convert.ToString(Guid.NewGuid())).Trim();
+                var newFileName = myUniqueFileName + fileExt;
+                fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
+
+                using FileStream fs = File.Create(fileName);
+                file.CopyTo(fs);
+                fs.Flush();
+
+                var pathDb = @"~/Content/Images/" + newFileName;
+                var image = new Image
+                {
+                    Title = myUniqueFileName, Ext = fileExt, ImagePath = pathDb, IsMainImage = true
+                };
+                newRecipe.Images.Add(image);
+            }
+
             var recipe = _mapper.Map<Recipe>(newRecipe);
+
             var id = _recipeRepository.AddRecipe(recipe);
             return id;
-        }
-
-        public void AddNewImage(int recipeId, IFormFile file)
-        {
-            var recipe = _recipeRepository.GetRecipe(recipeId);
-
-            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition)
-                .FileName.ToString()
-                .Trim();
-            var fileExt = Path.GetExtension(fileName);
-            var myUniqueFileName = (recipe.Name + "_" + recipe.CreateDate.ToString("dd-MM-yyyy") + "-" +
-                                    Convert.ToString(Guid.NewGuid())).Trim();
-            var newFileName = myUniqueFileName + fileExt;
-            fileName = Path.Combine(_environment.ContentRootPath, @"wwwroot/Content/Images/") + newFileName;
-
-            using FileStream fs = System.IO.File.Create(fileName);
-            file.CopyTo(fs);
-            fs.Flush();
-
-            var pathDb = @"~/Content/Images/" + newFileName;
-            var image = new Image { Title = myUniqueFileName, Ext = fileExt, ImagePath = pathDb, IsMainImage = true };
-            recipe.Images.Add(image);
         }
 
         public NewRecipeVm GetRecipeForEdit(int id)

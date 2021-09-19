@@ -33,8 +33,8 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index(int recipeId)
         {
-            if (_imageService.GetRecipeOwnerId(recipeId) != _userService.GetUserId())
-                return RedirectToAction("Index", "Recipes");
+            if (_imageService.GetRecipeOwnerId(recipeId) != _userService.GetUserId()) 
+                return Forbid();
 
             var images = _imageService.GetAllImagesForList(recipeId, _userService.GetUserId());
             _logger.LogInformation($"User {_userService.GetUserId()} viewed images for recipe with id {recipeId}.");
@@ -52,7 +52,7 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult Delete(int imageId, int recipeIdToDelete)
         {
             if (_imageService.GetRecipeOwnerId(recipeIdToDelete) != _userService.GetUserId())
-                return RedirectToAction("Index", "Recipes");
+                return Forbid();
 
             var recipeId = _imageService.DeleteImageFromRecipe(imageId);
             _logger.LogInformation($"User {_userService.GetUserId()} deleted image with id: {imageId}.");

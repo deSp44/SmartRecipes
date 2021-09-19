@@ -55,7 +55,7 @@ namespace SmartRecipesMVC.Web.Controllers
                 return View(recipeModel);
             }
 
-            return RedirectToAction("Index");
+            return Forbid();
         }
 
         [HttpGet]
@@ -74,13 +74,9 @@ namespace SmartRecipesMVC.Web.Controllers
             {
                 model.OwnerId = _userService.GetUserId();
 
-                if (HttpContext.Request.Form.Files.Count != 0)
-                {
                     var file = HttpContext.Request.Form.Files.FirstOrDefault();
-                    _recipeService.AddNewImage(model.Id, file);
-                }
 
-                var id = _recipeService.AddRecipe(model);
+                    var id = _recipeService.AddRecipe(model, file);
                 _logger.LogInformation($"User {_userService.GetUserId()} added recipe with id: {id}.");
                 return RedirectToAction("Index");
             }
@@ -94,7 +90,7 @@ namespace SmartRecipesMVC.Web.Controllers
             if (recipe.OwnerId == _userService.GetUserId())
                 return View(recipe);
 
-            return View("Index");
+            return Forbid();
         }
 
         [HttpPost]
@@ -120,13 +116,13 @@ namespace SmartRecipesMVC.Web.Controllers
                 _recipeService.MoveToTrash(id);
                 _logger.LogInformation($"Recipe {id} was moved to trash by user {_userService.GetUserId()}.");
             }
-            return RedirectToAction("Index");
+            return Forbid();
         }
         
         // DYNAMIC ADD
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddOrderItem([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
+        public ActionResult AddIngredient([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
         {
             newRecipeVm.RecipeIngredients.Add(new RecipeIngredient());
             return PartialView("RecipeIngredients", newRecipeVm);
@@ -134,7 +130,7 @@ namespace SmartRecipesMVC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoveOrderItem([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
+        public ActionResult RemoveIngredient([Bind("RecipeIngredients")] NewRecipeVm newRecipeVm)
         {
             if (newRecipeVm.RecipeIngredients.Count != 0)
             {
@@ -192,7 +188,7 @@ namespace SmartRecipesMVC.Web.Controllers
                 _recipeService.DeleteRecipe(id);
                 _logger.LogInformation($"Recipe {id} was permanently deleted!");
             }
-            return RedirectToAction("Index");
+            return Forbid();
         }
 
         public IActionResult RestoreRecipe(int id)
@@ -203,7 +199,7 @@ namespace SmartRecipesMVC.Web.Controllers
                 _recipeService.RestoreRecipe(id);
                 _logger.LogInformation($"Recipe {id} was restored!");
             }
-            return RedirectToAction("Index");
+            return Forbid();
         }
 
         public IActionResult CreatePdf(int id)

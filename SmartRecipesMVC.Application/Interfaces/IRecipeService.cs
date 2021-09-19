@@ -12,10 +12,9 @@ namespace SmartRecipesMVC.Application.Interfaces
     {
         ListRecipeForListVm GetAllRecipesForList(int pageSize, int pageNumber, string searchString, bool trash, string userId);
         RecipeDetailsVm GetRecipeDetails(int recipeId);
-        int AddRecipe(NewRecipeVm recipe);
+        int AddRecipe(NewRecipeVm recipe, IFormFile file);
         NewRecipeVm GetRecipeForEdit(int id);
         void UpdateRecipe(NewRecipeVm model);
-        void AddNewImage(int recipeId, IFormFile file);
         void MoveToTrash (int id);
 
         ListRecipeForListVm GetAllPublicRecipes(int pageSize, int pageNumber, string searchString);

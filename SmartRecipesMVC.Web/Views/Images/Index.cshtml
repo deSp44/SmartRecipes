@@ -2,7 +2,7 @@
 @model SmartRecipesMVC.Application.ViewModels.ImageVm.ListOfImagesVm
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Images";
 }
 
 <br/>
@@ -39,10 +39,10 @@
                 @foreach (var image in Model.Images)
                 {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class=" form-check">
+                    <div class="form-check">
                         @if (image.IsMainImage)
                         {
-                            <input class="form-check-input me-1" type="radio" aria-label="..." name="imageRadio" id="imageRadio_@i" value="@i" checked>
+                            <input class="form-check-input me-1" type="radio" aria-label="..." name="imageRadio" id="imageRadio_@i" value="@i" checked >
                         }
                         else
                         {
@@ -51,8 +51,8 @@
                         @Html.DisplayName(image.Title)
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-outline-primary openModalImage" data-toggle="modal" data-url="@image.ImagePath" data-target="#myModal">Show image <i class="fas fa-image"></i></button>
-                        <a onclick="return confirmation()" class="btn btn-outline-danger" asp-action="Delete" asp-route-imageId="@image.Id" asp-route-recipeIdToDelete="@image.RecipeId">Remove image <i class="fas fa-trash"></i></a>
+                        <button type="button" class="btn btn-outline-primary openModalImage button-position-fix" data-toggle="modal" data-url="@image.ImagePath" data-target="#myModal">Show image <i class="fas fa-image"></i></button>
+                        <a onclick="return confirmation()" class="btn btn-outline-danger button-position-fix" asp-action="Delete" asp-route-imageId="@image.Id" asp-route-recipeIdToDelete="@image.RecipeId">Remove image <i class="fas fa-trash"></i></a>
                         @{ i++;}
                     </div>
                 </li>
@@ -79,6 +79,14 @@
         </div>
     </div>
 </div>
+
+<style>
+    .button-position-fix {
+        width: 150px;
+        float: right;
+        margin: 4px;
+    }
+</style>
 
 @section Scripts
 {

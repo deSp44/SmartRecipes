@@ -37,4 +37,9 @@
     <ProjectReference Include="..\SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+    <Folder Include="wwwroot\Content\Images\" />
+  </ItemGroup>
+
 </Project>

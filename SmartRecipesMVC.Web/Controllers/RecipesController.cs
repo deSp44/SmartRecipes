@@ -30,7 +30,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", false, _userService.GetUserId());
+            var model = _recipeService.GetAllRecipesForList(9, 1, "", false, _userService.GetUserId());
             _logger.LogInformation($"User {_userService.GetUserId()} viewed private recipes.");
             return View(model);
         }
@@ -49,12 +49,15 @@ namespace SmartRecipesMVC.Web.Controllers
         public IActionResult ViewRecipe(int recipeId)
         {
             var recipeModel = _recipeService.GetRecipeDetails(recipeId);
-            if (recipeModel.OwnerId == _userService.GetUserId())
+            if (recipeModel.OwnerId == null)
+            {
+                return View(recipeModel);
+            }
+            else if (recipeModel.OwnerId == _userService.GetUserId())
             {
                 _logger.LogInformation($"User {_userService.GetUserId()} view recipe with id: {recipeId}.");
                 return View(recipeModel);
             }
-
             return Forbid();
         }
 
@@ -115,6 +118,7 @@ namespace SmartRecipesMVC.Web.Controllers
             {
                 _recipeService.MoveToTrash(id);
                 _logger.LogInformation($"Recipe {id} was moved to trash by user {_userService.GetUserId()}.");
+                return RedirectToAction("Index", "Recipes");
             }
             return Forbid();
         }
@@ -144,7 +148,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Public()
         {
-            var model = _recipeService.GetAllPublicRecipes(12, 1, "");
+            var model = _recipeService.GetAllPublicRecipes(9, 1, "");
             _logger.LogInformation($"User {_userService.GetUserId()} viewed public recipes.");
             return View(model);
         }
@@ -164,7 +168,7 @@ namespace SmartRecipesMVC.Web.Controllers
         [HttpGet]
         public IActionResult Trash()
         {
-            var model = _recipeService.GetAllRecipesForList(12, 1, "", true, _userService.GetUserId());
+            var model = _recipeService.GetAllRecipesForList(9, 1, "", true, _userService.GetUserId());
             _logger.LogInformation($"User {_userService.GetUserId()} viewed trash.");
             return View(model);
         }
@@ -186,7 +190,8 @@ namespace SmartRecipesMVC.Web.Controllers
             if (recipe.OwnerId == _userService.GetUserId())
             {
                 _recipeService.DeleteRecipe(id);
-                _logger.LogInformation($"Recipe {id} was permanently deleted!");
+                _logger.LogInformation($"Recipe {id} was permanently deleted!"); 
+                return RedirectToAction("Trash", "Recipes");
             }
             return Forbid();
         }
@@ -197,7 +202,8 @@ namespace SmartRecipesMVC.Web.Controllers
             if (recipe.OwnerId == _userService.GetUserId())
             {
                 _recipeService.RestoreRecipe(id);
-                _logger.LogInformation($"Recipe {id} was restored!");
+                _logger.LogInformation($"Recipe {id} was restored!"); 
+                return RedirectToAction("Trash", "Recipes");
             }
             return Forbid();
         }

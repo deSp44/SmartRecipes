@@ -27,6 +27,16 @@
 
 <hr/>
 
+@if (Model.Recipes.Count == 0)
+{
+    <div class="d-flex align-items-center justify-content-center" style="height: 350px">
+        <div class="p-2">
+            <h3>You don't have any recipes yet!</h3>
+            <p>To create a recipe, click on the green button in the bar above.</p>
+        </div>
+    </div>
+}
+
 <div class="card-deck">
     @foreach (var item in Model.Recipes)
     {

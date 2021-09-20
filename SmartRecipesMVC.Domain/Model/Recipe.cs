@@ -10,7 +10,9 @@ namespace SmartRecipesMVC.Domain.Model
     public class Recipe
     {
         public int Id { get; set; }
-        public string OwnerId { get; set; }
+#pragma warning disable 8632
+        public string? OwnerId { get; set; }
+#pragma warning restore 8632
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }

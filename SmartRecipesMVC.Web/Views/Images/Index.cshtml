@@ -52,7 +52,7 @@
                     </div>
                     <div class="">
                         <button type="button" class="btn btn-outline-primary openModalImage button-position-fix" data-toggle="modal" data-url="@image.ImagePath" data-target="#myModal">Show image <i class="fas fa-image"></i></button>
-                        <a onclick="return confirmation()" class="btn btn-outline-danger button-position-fix" asp-action="Delete" asp-route-imageId="@image.Id" asp-route-recipeIdToDelete="@image.RecipeId">Remove image <i class="fas fa-trash"></i></a>
+                        <a onclick="return confirmation()" class="btn btn-outline-danger button-position-fix" asp-action="Delete" asp-route-imageId="@image.Id" asp-route-recipeId="@image.RecipeId" asp-route-filePath="@image.ImagePath">Remove image <i class="fas fa-trash"></i></a>
                         @{ i++;}
                     </div>
                 </li>

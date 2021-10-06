@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Tests", "SmartRecipesMVC.Tests\SmartRecipesMVC.Tests.csproj", "{16A0A57C-7617-4EE5-9FEF-D8740363873B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesAPI", "SmartRecipesAPI\SmartRecipesAPI.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesAPI", "SmartRecipesAPI\SmartRecipesAPI.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

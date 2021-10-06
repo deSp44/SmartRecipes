@@ -49,12 +49,12 @@ namespace SmartRecipesMVC.Web.Controllers
             return View(images);
         }
 
-        public IActionResult Delete(int imageId, int recipeIdToDelete)
+        public IActionResult Delete(int imageId, int recipeId, string filePath)
         {
-            if (_imageService.GetRecipeOwnerId(recipeIdToDelete) != _userService.GetUserId())
+            if (_imageService.GetRecipeOwnerId(recipeId) != _userService.GetUserId())
                 return Forbid();
 
-            var recipeId = _imageService.DeleteImageFromRecipe(imageId);
+            _imageService.DeleteImageFromRecipe(imageId, filePath);
             _logger.LogInformation($"User {_userService.GetUserId()} deleted image with id: {imageId}.");
             return RedirectToAction("Index", new { recipeId });
         }

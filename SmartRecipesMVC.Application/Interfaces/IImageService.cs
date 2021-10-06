@@ -16,6 +16,6 @@ namespace SmartRecipesMVC.Application.Interfaces
         ListOfImagesVm GetAllImagesForList(int recipeId, string userId);
         ListOfImagesVm GetAllImagesForIsMainImage(int recipeId, string userId, int imageRadio);
         int AddNewImage(int recipeId, IFormFile file);
-        int DeleteImageFromRecipe(int imageId);
+        void DeleteImageFromRecipe(int imageId, string filePath);
     }
 }

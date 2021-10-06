@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
@@ -20,12 +21,14 @@ namespace SmartRecipesMVC.Application.Services
     {
         private readonly IImageRepository _imageRepository;
         private readonly IHostEnvironment _environment;
+        private readonly IWebHostEnvironment _appEnvironment;
         private readonly IMapper _mapper;
 
-        public ImageService(IImageRepository imageRepository, IHostEnvironment environment, IMapper mapper)
+        public ImageService(IImageRepository imageRepository, IHostEnvironment environment, IWebHostEnvironment appEnvironment, IMapper mapper)
         {
             _imageRepository = imageRepository;
             _environment = environment;
+            _appEnvironment = appEnvironment;
             _mapper = mapper;
         }
 
@@ -97,10 +100,16 @@ namespace SmartRecipesMVC.Application.Services
             return recipe.Id;
         }
 
-        public int DeleteImageFromRecipe(int imageId)
+        public void DeleteImageFromRecipe(int imageId, string filePath)
         {
-            var recipeId = _imageRepository.DeleteImage(imageId);
-            return recipeId;
+            var rootPath = _appEnvironment.WebRootPath;
+            var mergedPath = rootPath + filePath.Replace("~", "");
+
+            if (File.Exists(mergedPath))
+            {
+                _imageRepository.DeleteImage(imageId);
+                File.Delete(mergedPath);
+            }
         }
     }
 }

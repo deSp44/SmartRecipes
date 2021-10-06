@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesMVC.Web", "SmartRecipesMVC.Web\SmartRecipesMVC.Web.csproj", "{E47DE4D0-A457-4ACD-A5A1-E8BFABACA2FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Web", "SmartRecipesMVC.Web\SmartRecipesMVC.Web.csproj", "{E47DE4D0-A457-4ACD-A5A1-E8BFABACA2FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A41A8DDD-F05B-40E9-ABD6-58A9FA0765B0}"
 EndProject
@@ -15,13 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1B623814-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C8B05E4D-E785-442C-BE31-C78C2E5BCB81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesMVC.Application", "SmartRecipesMVC.Application\SmartRecipesMVC.Application.csproj", "{8A8DBA64-7A8B-4965-8CE3-6EFA76CED12E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Application", "SmartRecipesMVC.Application\SmartRecipesMVC.Application.csproj", "{8A8DBA64-7A8B-4965-8CE3-6EFA76CED12E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesMVC.Domain", "SmartRecipesMVC.Domain\SmartRecipesMVC.Domain.csproj", "{3B789A20-BE22-4E29-82B8-75F8DB792AB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Domain", "SmartRecipesMVC.Domain\SmartRecipesMVC.Domain.csproj", "{3B789A20-BE22-4E29-82B8-75F8DB792AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesMVC.Infrastructure", "SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj", "{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Infrastructure", "SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj", "{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesMVC.Tests", "SmartRecipesMVC.Tests\SmartRecipesMVC.Tests.csproj", "{16A0A57C-7617-4EE5-9FEF-D8740363873B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Tests", "SmartRecipesMVC.Tests\SmartRecipesMVC.Tests.csproj", "{16A0A57C-7617-4EE5-9FEF-D8740363873B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartRecipesAPI", "SmartRecipesAPI\SmartRecipesAPI.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{16A0A57C-7617-4EE5-9FEF-D8740363873B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A0A57C-7617-4EE5-9FEF-D8740363873B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A0A57C-7617-4EE5-9FEF-D8740363873B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{3B789A20-BE22-4E29-82B8-75F8DB792AB2} = {8583A3C7-39CD-4F97-8CAF-43450545F790}
 		{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED} = {8D97CC25-0589-4AD6-9BD8-9F34F4B0BC6D}
 		{16A0A57C-7617-4EE5-9FEF-D8740363873B} = {1B623814-871E-4575-B391-36EC21C8D567}
+		{A5E79130-061C-4A5F-B894-A3167B73F13D} = {C8B05E4D-E785-442C-BE31-C78C2E5BCB81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B13251C-5AEC-4EB9-A9C5-BEE9B3329AFA}

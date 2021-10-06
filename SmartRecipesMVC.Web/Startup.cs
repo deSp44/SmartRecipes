@@ -46,9 +46,7 @@ namespace SmartRecipesMVC.Web
                 });
 
             // DEFAULT IDENTITY
-            services.AddDefaultIdentity<ApplicationUser>(options =>
-                {
-                })
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Context>();
 

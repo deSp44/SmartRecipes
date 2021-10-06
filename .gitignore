@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /SmartRecipesMVC.Web/wwwroot/Content/Images
 /SmartRecipesMVC.Web/appsettings.json
+/SmartRecipesAPI/appsettings.json

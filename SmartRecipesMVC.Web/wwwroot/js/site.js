@@ -28,3 +28,8 @@ function backToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+
+// FACEBOOK CALLBACK
+if (window.location.hash && window.location.hash == '#_=_') {
+    window.location.hash = '';
+}

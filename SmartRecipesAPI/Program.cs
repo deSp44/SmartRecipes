@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace SmartRecipesMVC.Web
+namespace SmartRecipesAPI
 {
     public static class Program
     {
@@ -10,7 +10,7 @@ namespace SmartRecipesMVC.Web
             CreateHostBuilder(args).Build().Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

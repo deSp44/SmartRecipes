@@ -8,6 +8,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing.Tree;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using SmartRecipesMVC.Application.Interfaces;
@@ -95,6 +96,9 @@ namespace SmartRecipesMVC.Application.Services
                 ImagePath = pathDb,
                 IsMainImage = false
             };
+
+            if (recipe.Images.Count == 0) 
+                image.IsMainImage = true;
 
             _imageRepository.AddImage(image);
             return recipe.Id;

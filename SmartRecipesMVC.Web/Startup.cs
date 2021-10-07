@@ -33,7 +33,7 @@ namespace SmartRecipesMVC.Web
         {
             // DATABASE
             services.AddDbContext<Context>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("WebioConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             // RAZOR

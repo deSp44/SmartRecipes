@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SmartRecipesMVC.Domain.Interface;
 using SmartRecipesMVC.Domain.Model;
 
@@ -48,7 +49,7 @@ namespace SmartRecipesMVC.Infrastructure.Repositories
 
         public Recipe GetRecipe(int recipeId)
         {
-            return _context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+            return _context.Recipes.Include(x => x.Images).FirstOrDefault(x => x.Id == recipeId);
         }
 
         public void AddImage(Image image)

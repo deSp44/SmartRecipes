@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31410.357
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Web", "SmartRecipesMVC.Web\SmartRecipesMVC.Web.csproj", "{E47DE4D0-A457-4ACD-A5A1-E8BFABACA2FC}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Tests", "SmartRecipesMVC.Tests\SmartRecipesMVC.Tests.csproj", "{16A0A57C-7617-4EE5-9FEF-D8740363873B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesAPI", "SmartRecipesAPI\SmartRecipesAPI.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.API", "SmartRecipesAPI\SmartRecipesMVC.API.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

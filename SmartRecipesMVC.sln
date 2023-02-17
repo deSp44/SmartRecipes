@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Domain", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.Infrastructure", "SmartRecipesMVC.Infrastructure\SmartRecipesMVC.Infrastructure.csproj", "{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartRecipesMVC.API", "SmartRecipesAPI\SmartRecipesMVC.API.csproj", "{A5E79130-061C-4A5F-B894-A3167B73F13D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,10 +41,6 @@ Global
 		{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5E79130-061C-4A5F-B894-A3167B73F13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,7 +50,6 @@ Global
 		{8A8DBA64-7A8B-4965-8CE3-6EFA76CED12E} = {A41A8DDD-F05B-40E9-ABD6-58A9FA0765B0}
 		{3B789A20-BE22-4E29-82B8-75F8DB792AB2} = {8583A3C7-39CD-4F97-8CAF-43450545F790}
 		{B2FD2A9C-F5BE-4C27-A51E-50831FFA78ED} = {8D97CC25-0589-4AD6-9BD8-9F34F4B0BC6D}
-		{A5E79130-061C-4A5F-B894-A3167B73F13D} = {C8B05E4D-E785-442C-BE31-C78C2E5BCB81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B13251C-5AEC-4EB9-A9C5-BEE9B3329AFA}
